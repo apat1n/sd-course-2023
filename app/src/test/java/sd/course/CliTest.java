@@ -2,23 +2,18 @@ package sd.course;
 
 import org.junit.Assert;
 import org.junit.Test;
-import sd.course.command.Command;
 
-import java.util.List;
+import java.io.IOException;
 
 public class CliTest {
     @Test public void testAllCli() {
-        Lexer lexer = new LexerImpl();
-        Substitutor substitutor = new SubstitutorImpl();
-        Parser parser = new ParserImpl();
-        Executor executor = new ExecutorImpl();
-
+        var pipeline = new Pipeline();
         String input = "echo hello world";
-        List<Token> tokens = lexer.lex(input);
-        tokens = substitutor.substitute(tokens);
-
-        List<Command> commands = parser.parse(tokens);
-        String output = executor.execute(commands);
-        Assert.assertEquals("hello world", output);
+        try (var output = pipeline.apply(input)) {
+            byte[] result = output.readAllBytes();
+            Assert.assertEquals("hello world".getBytes(), result);
+        } catch (IOException e) {
+            Assert.fail();
+        }
     }
 }

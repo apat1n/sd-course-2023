@@ -19,7 +19,7 @@ public class CommandTest {
     @Test public void testCommandEchoEmpty() {
         Command commandEcho = new CommandEcho(Collections.emptyList());
         InputStream inputStream = new ByteArrayInputStream("".getBytes());
-        InputStream output = commandEcho.execute(inputStream);
+        InputStream output = commandEcho.apply(inputStream);
         try {
             Assert.assertEquals("", IOUtils.toString(output, StandardCharsets.UTF_8));
         } catch (IOException ex) {
@@ -29,7 +29,7 @@ public class CommandTest {
 
     @Test public void testCommandEcho() {
         Command commandEcho = new CommandEcho(List.of("hello", "world"));
-        InputStream output = commandEcho.execute(new ByteArrayInputStream("".getBytes()));
+        InputStream output = commandEcho.apply(new ByteArrayInputStream("".getBytes()));
         try {
             Assert.assertEquals("hello world", IOUtils.toString(output, StandardCharsets.UTF_8));
         } catch (IOException ex) {
@@ -39,7 +39,7 @@ public class CommandTest {
 
     @Test public void testCommandPwd() {
         Command commandEcho = new CommandPwd(Collections.emptyList());
-        InputStream output = commandEcho.execute(new ByteArrayInputStream("".getBytes()));
+        InputStream output = commandEcho.apply(new ByteArrayInputStream("".getBytes()));
         try {
             String expected = Paths.get(".").toAbsolutePath().normalize() + "\n";
             Assert.assertEquals(expected, IOUtils.toString(output, StandardCharsets.UTF_8));
@@ -60,7 +60,7 @@ public class CommandTest {
             throw new RuntimeException(e);
         }
         Command command = new CommandCat(List.of(path.toAbsolutePath().toString()));
-        InputStream output = command.execute(new ByteArrayInputStream("".getBytes()));
+        InputStream output = command.apply(new ByteArrayInputStream("".getBytes()));
         try {
             Assert.assertEquals(text, IOUtils.toString(output, StandardCharsets.UTF_8));
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class CommandTest {
         }
 
         Command command = new CommandWc(List.of(path.toAbsolutePath().toString()));
-        InputStream output = command.execute(new ByteArrayInputStream("".getBytes()));
+        InputStream output = command.apply(new ByteArrayInputStream("".getBytes()));
         try {
             String expected = "2 4 26 " + path.toAbsolutePath() + "\n";
             Assert.assertEquals(expected, IOUtils.toString(output, StandardCharsets.UTF_8));
