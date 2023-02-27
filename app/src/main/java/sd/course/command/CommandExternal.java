@@ -13,7 +13,7 @@ public class CommandExternal implements Command {
     }
 
     @Override
-    public InputStream execute(InputStream input) {
+    public InputStream apply(InputStream input) {
         ProcessBuilder processBuilder = new ProcessBuilder(args);
         processBuilder.redirectErrorStream(true);
         Process process;

@@ -10,7 +10,7 @@ public class CommandPwd implements Command {
         assert args.isEmpty() : "pwd: too many arguments";
     }
     @Override
-    public InputStream execute(InputStream input) {
+    public InputStream apply(InputStream input) {
         String path = Paths.get(".").toAbsolutePath().normalize() + "\n";
         return new ByteArrayInputStream(path.getBytes());
     }

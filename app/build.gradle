@@ -35,7 +35,7 @@ testing {
 
 application {
     // Define the main class for the application.
-    mainClass = 'sd.course.App'
+    mainClass = 'sd.course.Main'
 }
 
 run {

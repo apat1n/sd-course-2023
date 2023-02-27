@@ -15,7 +15,7 @@ public class CommandCat implements Command {
     }
 
     @Override
-    public InputStream execute(InputStream input) {
+    public InputStream apply(InputStream input) {
         StringBuilder result = new StringBuilder();
         for (String arg : args) {
             try {

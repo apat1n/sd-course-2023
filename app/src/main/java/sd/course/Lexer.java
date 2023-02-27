@@ -1,12 +1,16 @@
 package sd.course;
 
 import java.util.List;
+import java.util.function.Function;
 
-public interface Lexer {
+public class Lexer implements Function<String, List<Token>> {
     /**
-     * Lexes the input string and returns a list of tokens.
+     * Lexes the input string and returns a list of result.
      * @param input the input string
-     * @return a list of tokens
+     * @return a list of result
      */
-    List<Token> lex(String input);
+    @Override
+    public List<Token> apply(String input) {
+        return null;
+    }
 }

@@ -19,7 +19,7 @@ public class CommandWc implements Command {
     }
 
     @Override
-    public InputStream execute(InputStream input) {
+    public InputStream apply(InputStream input) {
         StringBuilder result = new StringBuilder();
         int curLinesCount, curWordsCount, curBytesCount;
 
