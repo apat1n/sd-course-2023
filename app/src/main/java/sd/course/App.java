@@ -21,7 +21,7 @@ public class App {
             tokens = substitutor.substitute(tokens);
             List<Command> commands = parser.parse(tokens);
             String output = executor.execute(commands);
-            System.out.println(output + "\n");
+            System.out.println(output);
         }
     }
 }
