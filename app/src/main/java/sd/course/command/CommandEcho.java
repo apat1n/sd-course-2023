@@ -1,5 +1,6 @@
 package sd.course.command;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -8,11 +9,10 @@ public class CommandEcho implements Command {
 
     public CommandEcho(List<String> args) {
         this.args = args;
-        assert this.args.size() == 1: "Echo command takes exactly one argument";
     }
 
     @Override
-    public String execute(InputStream input) {
-        return this.args.get(0);
+    public InputStream execute(InputStream input) {
+        return new ByteArrayInputStream((String.join(" ", args) + "\n").getBytes());
     }
 }

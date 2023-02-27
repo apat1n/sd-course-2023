@@ -8,5 +8,5 @@ public interface Command {
      * @param input the input stream of command
      * @return the result of the command
      */
-    String execute(InputStream input);
+    InputStream execute(InputStream input);
 }
