@@ -13,6 +13,6 @@ public class CommandEcho implements Command {
 
     @Override
     public InputStream execute(InputStream input) {
-        return new ByteArrayInputStream((String.join(" ", args) + "\n").getBytes());
+        return new ByteArrayInputStream((String.join(" ", args)).getBytes());
     }
 }
