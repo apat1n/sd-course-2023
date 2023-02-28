@@ -11,7 +11,7 @@ public class CliTest {
         String input = "echo hello world";
         try (var output = pipeline.apply(input)) {
             byte[] result = output.readAllBytes();
-            Assert.assertEquals("hello world".getBytes(), result);
+            Assert.assertArrayEquals("hello world".getBytes(), result);
         } catch (IOException e) {
             Assert.fail();
         }

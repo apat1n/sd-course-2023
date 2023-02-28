@@ -67,6 +67,6 @@ public class Lexer implements Function<String, List<Token>> {
                 return i;
             }
         }
-        return -1;
+        return input.length();
     }
 }
