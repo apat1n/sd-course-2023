@@ -1,5 +1,10 @@
 package sd.course;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Main {
@@ -9,8 +14,13 @@ public class Main {
         while (true) {
             System.out.print("> ");
             String input = scanner.nextLine().trim();
-            var output = pipeline.apply(input);
-            System.out.println(output);
+            InputStream output = pipeline.apply(input);
+            try {
+                String text = IOUtils.toString(output, StandardCharsets.UTF_8);
+                System.out.println(text);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
