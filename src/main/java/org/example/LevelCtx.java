@@ -41,7 +41,7 @@ public class LevelCtx {
         }
         if (x == 0 || x == WIDTH - 1) {
             if (y == HEIGHT / 2 || y == HEIGHT / 2 - 1) {
-                return new Pair<>('-', CSIColor.WHITE);
+                return new Pair<>('|', CSIColor.WHITE);
             } else {
                 return new Pair<>('#', CSIColor.WHITE);
             }
