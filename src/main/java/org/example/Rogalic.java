@@ -5,6 +5,8 @@ import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 
+import org.example.entities.nonmovable.Trap;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -19,20 +21,16 @@ public class Rogalic {
         csi = new WSwingConsoleInterface("Heresy Rising", configuration);
     }
 
-    public static void main(String[] p) {
-        new Rogalic().run();
-    }
-
     public void run() {
         csi.cls();
 
         List<Trap> traps = Arrays.asList(
-                new Trap(new Pair(40, 15)),
-                new Trap(new Pair(50, 7))
+                new Trap(new Pair<>(40, 15), 0),
+                new Trap(new Pair<>(50, 7), 0)
         );
         List<Item> items = Arrays.asList(
-                new Item(new Pair(10, 10)),
-                new Item(new Pair(20, 10))
+                new Item(new Pair<>(10, 10)),
+                new Item(new Pair<>(20, 10))
         );
         LevelCtx levelCtx = new LevelCtx(null, traps, items);
         levelCtx.render(csi);

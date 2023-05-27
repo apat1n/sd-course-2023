@@ -3,6 +3,9 @@ package org.example;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 
+import org.example.entities.nonmovable.Trap;
+import org.example.entities.nonmovable.ExitDoor;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,7 @@ public class LevelCtx {
 
         map = new HashMap<>();
         for (Trap trap : traps) {
-            map.put(trap.getCoordinates(), new Pair<>('░', CSIColor.RED));
+            map.put(trap.getPosition(), new Pair<>('░', CSIColor.RED));
         }
         for (Item item : items) {
             map.put(item.getCoordinates(), new Pair<>('░', CSIColor.GREEN));

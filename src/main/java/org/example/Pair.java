@@ -1,27 +1,27 @@
 package org.example;
 
-public class Pair<A, B> {
-    private A first;
-    private B second;
+public class Pair<FirstType, SecondType> {
+    private FirstType first;
+    private SecondType second;
 
-    public Pair(A first, B second) {
+    public Pair(FirstType first, SecondType second) {
         this.first = first;
         this.second = second;
     }
 
-    public A getFirst() {
+    public FirstType getFirst() {
         return first;
     }
 
-    public B getSecond() {
+    public SecondType getSecond() {
         return second;
     }
 
-    public void setFirst(A first) {
+    public void setFirst(FirstType first) {
         this.first = first;
     }
 
-    public void setSecond(B second) {
+    public void setSecond(SecondType second) {
         this.second = second;
     }
 
