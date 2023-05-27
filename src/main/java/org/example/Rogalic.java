@@ -15,13 +15,20 @@ public class Rogalic {
 
     public void run() {
         csi.cls();
-        csi.print(5, 5, "Welcome to TEH game!", CSIColor.BABY_BLUE);
+
+        LevelCtx levelCtx = new LevelCtx();
+        levelCtx.render(csi);
         csi.saveBuffer();
+        csi.saveBuffer();
+
+        a = 10;
         boolean exit = false;
         while (!exit) {
             csi.restore();
-            csi.print(a, b, "@", CSIColor.ATOMIC_TANGERINE);
+            csi.restore();
+            csi.print(a, b, '@', CSIColor.ATOMIC_TANGERINE);
             csi.refresh();
+
             int key = csi.inkey().code;
             switch (key) {
                 case CharKey.UARROW:
