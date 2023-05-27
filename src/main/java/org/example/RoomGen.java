@@ -10,10 +10,11 @@ import net.slashie.util.Pair;
 public class RoomGen {
     private int height, width, artifactsCount, enemiesCount, trapCount;
     private int xdelta, ydelta;
+    private static final Random random = new Random();
 
-    Set <Pair <Integer, Integer> > important = new HashSet<>();
+    Set<Pair<Integer, Integer>> important = new HashSet<>();
 
-    public RoomGen(int xdelta, int ydelta, int height, int width, int artifactsCount, int enemiesCount, int trapCount){
+    public RoomGen(int xdelta, int ydelta, int height, int width, int artifactsCount, int enemiesCount, int trapCount) {
         this.xdelta = xdelta;
         this.ydelta = ydelta;
         this.height = height;
@@ -23,15 +24,14 @@ public class RoomGen {
         this.trapCount = trapCount;
     }
 
-    public List<Pair<Integer, Integer>> artifactSpots(){
-        Random rand = new Random();
-        List< Pair<Integer, Integer>> artifacts = new LinkedList<>();
-        for (int i = 0; i<artifactsCount; ++i) {
-            int x1 = rand.nextInt(width - 1) + xdelta + 1, y1 = rand.nextInt(height - 1) + ydelta + 1;
-            Pair <Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)){
-                x1 = rand.nextInt(width) + xdelta;
-                y1 = rand.nextInt( height) + ydelta;
+    public List<Pair<Integer, Integer>> artifactSpots() {
+        List<Pair<Integer, Integer>> artifacts = new LinkedList<>();
+        for (int i = 0; i < artifactsCount; ++i) {
+            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
+            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
+            while (important.contains(toAdd)) {
+                x1 = random.nextInt(width) + xdelta;
+                y1 = random.nextInt(height) + ydelta;
                 toAdd = new Pair<>(x1, y1);
             }
             artifacts.add(toAdd);
@@ -40,15 +40,14 @@ public class RoomGen {
         return artifacts;
     }
 
-    public List<Pair<Integer, Integer>> enemySpots(){
-        Random rand = new Random();
-        List< Pair<Integer, Integer>> enemies = new LinkedList<>();
-        for (int i = 0; i<enemiesCount; ++i) {
-            int x1 = rand.nextInt(width - 1) + xdelta + 1, y1 = rand.nextInt(height - 1) + ydelta + 1;
-            Pair <Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)){
-                x1 = rand.nextInt(width) + xdelta;
-                y1 = rand.nextInt( height) + ydelta;
+    public List<Pair<Integer, Integer>> enemySpots() {
+        List<Pair<Integer, Integer>> enemies = new LinkedList<>();
+        for (int i = 0; i < enemiesCount; ++i) {
+            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
+            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
+            while (important.contains(toAdd)) {
+                x1 = random.nextInt(width) + xdelta;
+                y1 = random.nextInt(height) + ydelta;
                 toAdd = new Pair<>(x1, y1);
             }
             enemies.add(toAdd);
@@ -57,15 +56,14 @@ public class RoomGen {
         return enemies;
     }
 
-    private List<Pair<Integer, Integer>> traps(){
-        Random rand = new Random();
-        List< Pair<Integer, Integer>> traps = new LinkedList<>();
-        for (int i = 0; i<enemiesCount; ++i) {
-            int x1 = rand.nextInt(width - 1) + xdelta + 1, y1 = rand.nextInt(height - 1) + ydelta + 1;
-            Pair <Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)){
-                x1 = rand.nextInt(width) + xdelta;
-                y1 = rand.nextInt( height) + ydelta;
+    private List<Pair<Integer, Integer>> traps() {
+        List<Pair<Integer, Integer>> traps = new LinkedList<>();
+        for (int i = 0; i < enemiesCount; ++i) {
+            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
+            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
+            while (important.contains(toAdd)) {
+                x1 = random.nextInt(width) + xdelta;
+                y1 = random.nextInt(height) + ydelta;
                 toAdd = new Pair<>(x1, y1);
             }
             traps.add(toAdd);
