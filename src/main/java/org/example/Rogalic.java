@@ -28,8 +28,8 @@ public class Rogalic {
         csi.saveBuffer();
         csi.saveBuffer();
 
-        int x = 10;
-        int y = 10;
+        int x = 1;
+        int y = 1;
         boolean exit = false;
         while (!exit) {
             csi.restore();

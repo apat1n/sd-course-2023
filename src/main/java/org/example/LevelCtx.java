@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LevelCtx {
-    public static final Integer WIDTH = 80;
-    public static final Integer HEIGHT = 20;
+    public static final Integer WIDTH = 10;
+    public static final Integer HEIGHT = 7;
 
     private final ExitDoor exitDoor;
     private final List<Trap> traps;
@@ -24,17 +24,14 @@ public class LevelCtx {
 
     LevelCtx(ExitDoor exitDoor) {
         this.exitDoor = exitDoor;
-        RoomGen roomGen = new RoomGen(0, 0, HEIGHT, WIDTH, 2, 0, 2);
+        RoomGen roomGen = new RoomGen(0, 0, HEIGHT, WIDTH, 10, 0, 5);
         this.traps = roomGen.traps();
         this.items = roomGen.artifactSpots();
 
         map = new HashMap<>();
         for (Trap trap : traps) {
-            System.out.println(trap);
             map.put(trap.getPosition(), new Pair<>('T', CSIColor.RED));
         }
-
-        List<Item> itemList = roomGen.artifactSpots();
         for (Item item : items) {
             map.put(item.getPosition(), new Pair<>('I', CSIColor.GREEN));
         }

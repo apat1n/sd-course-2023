@@ -25,18 +25,26 @@ public class RoomGen {
         this.trapCount = trapCount;
     }
 
-    public List<Item> artifactSpots() {
-        List<Item> artifacts = new LinkedList<>();
-        for (int i = 0; i < artifactsCount; ++i) {
-            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
+    private List<Pair<Integer, Integer>> generateCoords(int number){
+        List<Pair<Integer, Integer>> coords = new LinkedList<>();
+        for (int i = 0; i<number; ++i){
+            int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
             while (important.contains(toAdd)) {
-                x1 = random.nextInt(width - 1) + xdelta + 1;
-                y1 = random.nextInt(height - 1) + ydelta + 1;
+                x1 = random.nextInt(width - 2) + xdelta + 1;
+                y1 = random.nextInt(height - 2) + ydelta + 1;
                 toAdd = new Pair<>(x1, y1);
             }
-            artifacts.add(new Item(toAdd, "ABC", 1, 1));
+            coords.add(toAdd);
             important.add(toAdd);
+        }
+        return coords;
+    }
+
+    public List<Item> artifactSpots() {
+        List<Item> artifacts = new LinkedList<>();
+        for (Pair <Integer, Integer> curCord : generateCoords(artifactsCount)) {
+            artifacts.add(new Item(curCord, "ABC", 1, 1));
         }
         return artifacts;
     }
@@ -44,11 +52,11 @@ public class RoomGen {
     public List<Pair<Integer, Integer>> enemySpots() {
         List<Pair<Integer, Integer>> enemies = new LinkedList<>();
         for (int i = 0; i < enemiesCount; ++i) {
-            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
+            int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
             while (important.contains(toAdd)) {
-                x1 = random.nextInt(width - 1) + xdelta + 1;
-                y1 = random.nextInt(height - 1) + ydelta + 1;
+                x1 = random.nextInt(width - 2) + xdelta + 1;
+                y1 = random.nextInt(height - 2) + ydelta + 1;
                 toAdd = new Pair<>(x1, y1);
             }
             enemies.add(toAdd);
@@ -59,16 +67,8 @@ public class RoomGen {
 
     public List<Trap> traps() {
         List<Trap> traps = new LinkedList<>();
-        for (int i = 0; i < trapCount; ++i) {
-            int x1 = random.nextInt(width - 1) + xdelta + 1, y1 = random.nextInt(height - 1) + ydelta + 1;
-            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)) {
-                x1 = random.nextInt(width - 1) + xdelta + 1;
-                y1 = random.nextInt(height - 1) + ydelta + 1;
-                toAdd = new Pair<>(x1, y1);
-            }
-            traps.add(new Trap(toAdd, 10));
-            important.add(toAdd);
+        for (Pair <Integer, Integer> curCord : generateCoords(trapCount)) {
+            traps.add(new Trap(curCord, 10));
         }
         return traps;
     }
