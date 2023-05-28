@@ -1,0 +1,17 @@
+package org.example.entities.nonmovable;
+
+import org.example.Pair;
+
+public class Hatch implements Nonmovable {
+    private final Pair<Integer, Integer> position;
+    public boolean isAvailable = false;
+
+    public Hatch(Pair<Integer, Integer> position) {
+        this.position = position;
+    }
+
+    @Override
+    public Pair<Integer, Integer> getPosition() {
+        return position;
+    }
+}

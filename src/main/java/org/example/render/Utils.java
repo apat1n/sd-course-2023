@@ -21,6 +21,7 @@ public class Utils {
             "org.example.entities.nonmovable.Empty", new Palette('.', CSIColor.WHITE),
             "org.example.entities.nonmovable.Item", new Palette('o', CSIColor.GREEN),
             "org.example.entities.nonmovable.Trap", new Palette('x', CSIColor.RED),
-            "org.example.entities.nonmovable.Wall", new Palette('#', CSIColor.WHITE)
+            "org.example.entities.nonmovable.Wall", new Palette('#', CSIColor.WHITE),
+            "org.example.entities.nonmovable.Hatch", new Palette('O', CSIColor.AQUA)
     );
 }

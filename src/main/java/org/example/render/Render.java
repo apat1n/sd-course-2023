@@ -27,7 +27,7 @@ public class Render {
 
     public void renderField(LevelCtx levelCtx) {
         csi.cls();
-        for (int x = 0; x < 80; ++x) {
+        for (int x = 0; x < 79; ++x) {
             for (int y = 0; y < 17; ++y) {
                 renderEntity(new Empty(new Pair<>(x, y)));
             }

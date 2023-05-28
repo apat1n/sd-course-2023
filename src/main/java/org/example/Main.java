@@ -52,7 +52,9 @@ public class Main {
                 case CharKey.q:
                     System.exit(0);
             }
-            levelCtx.move(direction);
+            if(levelCtx.move(direction)){
+                //NEW LEVEL
+            }
             render.renderField(levelCtx);
             render.renderStatus(levelCtx);
 
@@ -64,8 +66,6 @@ public class Main {
                         case CharKey.C:
                         case CharKey.c:
                             levelCtx = new LevelCtx(null);
-                            levelCtx.setRender(render);
-                            render.setLevelCtx(levelCtx);
 
                             render.renderField();
                             render.renderStatus();
