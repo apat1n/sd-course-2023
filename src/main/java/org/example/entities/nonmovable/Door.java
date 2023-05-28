@@ -4,7 +4,7 @@ import org.example.Pair;
 
 public class Door implements Nonmovable {
     private final Pair<Integer, Integer> position;
-    public boolean visited;
+    private boolean visited;
 
     public Door(Pair<Integer, Integer> position, boolean visited) {
         this.position = position;
@@ -14,5 +14,13 @@ public class Door implements Nonmovable {
     @Override
     public Pair<Integer, Integer> getPosition() {
         return position;
+    }
+
+    public boolean getVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }

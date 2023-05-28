@@ -3,8 +3,9 @@ package org.example.entities.movable;
 import org.example.Pair;
 
 public class Player implements Movable {
+    private static final int INITIAL_HEALTH = 10;
     private Pair<Integer, Integer> position;
-    private Integer health = 10;
+    private int health = INITIAL_HEALTH;
 
     public Player(Pair<Integer, Integer> position) {
         this.position = position;
@@ -20,11 +21,11 @@ public class Player implements Movable {
         this.position = position;
     }
 
-    public Integer getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public void takeDamage(Integer damage) {
+    public void takeDamage(int damage) {
         this.health -= damage;
     }
 }

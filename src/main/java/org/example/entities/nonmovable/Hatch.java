@@ -4,7 +4,7 @@ import org.example.Pair;
 
 public class Hatch implements Nonmovable {
     private final Pair<Integer, Integer> position;
-    public boolean isAvailable = false;
+    private boolean isAvailable = false;
 
     public Hatch(Pair<Integer, Integer> position) {
         this.position = position;
@@ -13,5 +13,13 @@ public class Hatch implements Nonmovable {
     @Override
     public Pair<Integer, Integer> getPosition() {
         return position;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void isAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }

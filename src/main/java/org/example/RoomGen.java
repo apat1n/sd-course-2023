@@ -14,64 +14,58 @@ import java.util.Set;
 
 public class RoomGen {
     private static final Random random = new Random();
-    private int width, height;
-    private int xdelta, ydelta;
+    private final int width;
+    private final int height;
+    private final int xOffset;
+    private final int yOffset;
 
     Set<Pair<Integer, Integer>> important = new HashSet<>();
 
-    public RoomGen(int xdelta, int ydelta, int width, int height) {
-        this.xdelta = xdelta;
-        this.ydelta = ydelta;
+    public RoomGen(int xOffset, int yOffset, int width, int height) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
         this.width = width;
         this.height = height;
     }
 
-    private List<Pair<Integer, Integer>> generateCoords(int number) {
-        List<Pair<Integer, Integer>> coords = new LinkedList<>();
+    private List<Pair<Integer, Integer>> generate(int number) {
+        List<Pair<Integer, Integer>> result = new LinkedList<>();
         for (int i = 0; i < number; ++i) {
-            int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
+            int x1 = random.nextInt(width - 2) + xOffset + 1, y1 = random.nextInt(height - 2) + yOffset + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
             while (important.contains(toAdd)) {
-                x1 = random.nextInt(width - 2) + xdelta + 1;
-                y1 = random.nextInt(height - 2) + ydelta + 1;
+                x1 = random.nextInt(width - 2) + xOffset + 1;
+                y1 = random.nextInt(height - 2) + yOffset + 1;
                 toAdd = new Pair<>(x1, y1);
             }
-            coords.add(toAdd);
+            result.add(toAdd);
             important.add(toAdd);
         }
-        return coords;
+        return result;
     }
 
-    public List<Entity> artifactSpots(int count) {
-        List<Entity> artifacts = new LinkedList<>();
-        for (Pair<Integer, Integer> curCord : generateCoords(count)) {
-            artifacts.add(new Item(curCord, "ABC", 1, 1));
+    public List<Entity> getItems(int count) {
+        List<Entity> result = new LinkedList<>();
+        for (Pair<Integer, Integer> position : generate(count)) {
+            result.add(new Item(position, "ABC", 1, 1));
         }
-        return artifacts;
+        return result;
     }
 
-    public List<Pair<Integer, Integer>> enemySpots(int count) {
-        List<Pair<Integer, Integer>> enemies = new LinkedList<>();
-        for (int i = 0; i < count; ++i) {
-            int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
-            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)) {
-                x1 = random.nextInt(width - 2) + xdelta + 1;
-                y1 = random.nextInt(height - 2) + ydelta + 1;
-                toAdd = new Pair<>(x1, y1);
-            }
-            enemies.add(toAdd);
-            important.add(toAdd);
+
+    public List<Entity> getTraps(int count) {
+        List<Entity> result = new LinkedList<>();
+        for (Pair<Integer, Integer> position : generate(count)) {
+            result.add(new Trap(position, 10));
         }
-        return enemies;
+        return result;
     }
 
-
-    public List<Entity> traps(int count) {
-        List<Entity> traps = new LinkedList<>();
-        for (Pair<Integer, Integer> curCord : generateCoords(count)) {
-            traps.add(new Trap(curCord, 10));
+    /*public List<Entity> getEnemies(int count) {
+        List<Entity> result = new LinkedList<>();
+        for (Pair<Integer, Integer> position : generate(count)) {
+            result.add(new Enemy(position, "ABC", 1, 1));
         }
-        return traps;
-    }
+        return result;
+    }*/
 }

@@ -6,13 +6,13 @@ import org.example.render.Render;
 
 public class Main {
     public static void main(String[] args) {
-        LevelCtx levelCtx = new LevelCtx(null);
+        Level level = new Level(0, 0, 2, 2);
 //        Equipment equipment = new Equipment();
         Render render = new Render();
-        render.renderField(levelCtx);
-
+        render.renderField(level);
+        render.renderStatus(level);
         while (true) {
-            render.renderPlayer(levelCtx);
+            render.renderPlayer(level);
 
             Direction direction = Direction.NONE;
             switch (render.getKey()) {
@@ -52,30 +52,29 @@ public class Main {
                 case CharKey.q:
                     System.exit(0);
             }
-            if(levelCtx.move(direction)){
-                //NEW LEVEL
+            if (level.move(direction)) {
+                System.out.println("[NEW LEVEL]");
+                System.exit(0);
             }
-            render.renderField(levelCtx);
-            render.renderStatus(levelCtx);
+            render.renderField(level);
+            render.renderStatus(level);
 
-            if (levelCtx.getPlayer().getHealth() <= 0) {
+            if (level.getPlayer().getHealth() <= 0) {
                 render.renderDeath();
-                /*loop:
+                loop:
                 while (true) {
                     switch (render.getKey()) {
                         case CharKey.C:
                         case CharKey.c:
-                            levelCtx = new LevelCtx(null);
-
-                            render.renderField();
-                            render.renderStatus();
-
+                            level = new Level(0, 0, 2, 2);
+                            render.renderField(level);
+                            render.renderStatus(level);
                             break loop;
                         case CharKey.Q:
                         case CharKey.q:
                             System.exit(0);
                     }
-                }*/
+                }
             }
         }
     }
