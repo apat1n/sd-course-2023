@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class Render {
     private final ConsoleSystemInterface csi;
-    private final LevelCtx levelCtx;
+    private LevelCtx levelCtx;
 
     public Render(LevelCtx levelCtx) {
         this.levelCtx = levelCtx;
@@ -20,6 +20,10 @@ public class Render {
         configuration.setProperty("fontSize", "20");
         configuration.setProperty("font", "SF Mono Regular");
         csi = new WSwingConsoleInterface("Heresy Rising", configuration);
+    }
+
+    public void setLevelCtx(LevelCtx levelCtx) {
+        this.levelCtx = levelCtx;
     }
 
     private void renderEntity(Entity entity) {
@@ -38,6 +42,22 @@ public class Render {
         for (Entity entity : levelCtx.getField()) {
             renderEntity(entity);
         }
+        csi.saveBuffer();
+        renderStatus();
+    }
+
+    public void renderDeath() {
+        csi.cls();
+        csi.print(0, 0, "You died!");
+        csi.print(0, 1, "Press c/C to continue.");
+        csi.print(0, 2, "Press q/Q to exit.");
+        csi.refresh();
+    }
+
+    public void renderStatus() {
+        csi.restore();
+        csi.print(0, levelCtx.HEIGHT, new String(new char[levelCtx.WIDTH]).replace("\0", " "));
+        csi.print(0, levelCtx.HEIGHT, "Health: " + levelCtx.getPlayer().getHealth());
         csi.saveBuffer();
     }
 
