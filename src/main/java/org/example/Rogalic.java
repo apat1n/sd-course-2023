@@ -7,11 +7,11 @@ import org.example.render.Render;
 public class Rogalic {
     public void run() {
         LevelCtx levelCtx = new LevelCtx(null);
-        Render render = new Render();
-        render.renderField(LevelCtx.WIDTH, LevelCtx.HEIGHT, levelCtx.getField());
+        Render render = new Render(levelCtx);
+        render.renderField(LevelCtx.WIDTH, LevelCtx.HEIGHT);
 
         while (true) {
-            render.renderPlayer(levelCtx.getPlayer());
+            render.renderPlayer();
 
             Movable.Direction direction = Movable.Direction.NONE;
             switch (render.getKey()) {

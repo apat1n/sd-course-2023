@@ -1,21 +1,21 @@
 package org.example.render;
 
-import net.slashie.libjcsi.CSIColor;
-import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import org.example.LevelCtx;
 import org.example.Pair;
 import org.example.entities.Entity;
-import org.example.entities.movable.Player;
 import org.example.entities.nonmovable.Empty;
 
 import java.util.Properties;
-import java.util.Set;
 
 public class Render {
     private final ConsoleSystemInterface csi;
+    private final LevelCtx levelCtx;
 
-    public Render() {
+    public Render(LevelCtx levelCtx) {
+        this.levelCtx = levelCtx;
+
         Properties configuration = new Properties();
         configuration.setProperty("fontSize", "20");
         configuration.setProperty("font", "SF Mono Regular");
@@ -28,22 +28,22 @@ public class Render {
         csi.print(position.getFirst(), position.getSecond(), palette.fieldSymbol, palette.color);
     }
 
-    public void renderField(int width, int height, Set<Entity> field) {
+    public void renderField(int width, int height) {
         csi.cls();
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 renderEntity(new Empty(new Pair<>(x, y)));
             }
         }
-        for (Entity entity : field) {
+        for (Entity entity : levelCtx.getField()) {
             renderEntity(entity);
         }
         csi.saveBuffer();
     }
 
-    public void renderPlayer(Player player) {
+    public void renderPlayer() {
         csi.restore();
-        renderEntity(player);
+        renderEntity(levelCtx.getPlayer());
         csi.refresh();
     }
 
