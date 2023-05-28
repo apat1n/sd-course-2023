@@ -6,13 +6,14 @@ import org.example.render.Render;
 
 public class Main {
     public static void main(String[] args) {
-        Level level = new Level(0, 0, 2, 2);
-//        Equipment equipment = new Equipment();
+        Level level = new Level(2, 2);
         Render render = new Render();
         render.renderField(level);
-        render.renderStatus(level);
+        render.renderEquipment(level.getPlayer().getEquipment());
+        render.renderStatus(level.getPlayer());
+
         while (true) {
-            render.renderPlayer(level);
+            render.renderPlayer(level.getPlayer());
 
             Direction direction = Direction.NONE;
             switch (render.getKey()) {
@@ -28,26 +29,6 @@ public class Main {
                 case CharKey.RARROW:
                     direction = Direction.RIGHT;
                     break;
-                case CharKey.N1:
-                    break;
-                case CharKey.N2:
-                    break;
-                case CharKey.N3:
-                    break;
-                case CharKey.N4:
-                    break;
-                case CharKey.N5:
-                    break;
-                case CharKey.N6:
-                    break;
-                case CharKey.N7:
-                    break;
-                case CharKey.N8:
-                    break;
-                case CharKey.N9:
-                    break;
-                case CharKey.N0:
-                    break;
                 case CharKey.Q:
                 case CharKey.q:
                     System.exit(0);
@@ -57,7 +38,8 @@ public class Main {
                 System.exit(0);
             }
             render.renderField(level);
-            render.renderStatus(level);
+            render.renderEquipment(level.getPlayer().getEquipment());
+            render.renderStatus(level.getPlayer());
 
             if (level.getPlayer().getHealth() <= 0) {
                 render.renderDeath();
@@ -66,9 +48,9 @@ public class Main {
                     switch (render.getKey()) {
                         case CharKey.C:
                         case CharKey.c:
-                            level = new Level(0, 0, 2, 2);
+                            level = new Level(2, 2);
                             render.renderField(level);
-                            render.renderStatus(level);
+                            render.renderStatus(level.getPlayer());
                             break loop;
                         case CharKey.Q:
                         case CharKey.q:

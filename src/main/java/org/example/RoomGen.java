@@ -18,8 +18,7 @@ public class RoomGen {
     private final int height;
     private final int xOffset;
     private final int yOffset;
-
-    Set<Pair<Integer, Integer>> important = new HashSet<>();
+    private final Set<Pair<Integer, Integer>> used = new HashSet<>();
 
     public RoomGen(int xOffset, int yOffset, int width, int height) {
         this.xOffset = xOffset;
@@ -33,13 +32,13 @@ public class RoomGen {
         for (int i = 0; i < number; ++i) {
             int x1 = random.nextInt(width - 2) + xOffset + 1, y1 = random.nextInt(height - 2) + yOffset + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
-            while (important.contains(toAdd)) {
+            while (used.contains(toAdd)) {
                 x1 = random.nextInt(width - 2) + xOffset + 1;
                 y1 = random.nextInt(height - 2) + yOffset + 1;
                 toAdd = new Pair<>(x1, y1);
             }
             result.add(toAdd);
-            important.add(toAdd);
+            used.add(toAdd);
         }
         return result;
     }

@@ -16,30 +16,26 @@ import java.util.List;
 import java.util.Map;
 
 public class Level {
-    private final int xOffset;
-    private final int yOffset;
     private final int itemsCount;
     private final int trapsCount;
     private final Player player;
     private final Map<Pair<Integer, Integer>, Entity> field;
     private final List<Room> rooms;
 
-    public Level(int xOffset, int yOffset, int itemsCount, int trapsCount) {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+    public Level(int itemsCount, int trapsCount) {
         this.itemsCount = itemsCount;
         this.trapsCount = trapsCount;
         player = new Player(new Pair<>(0, 9));
         this.field = new HashMap<>();
-        rooms = new LinkedList<>(List.of(new Room(field, xOffset, yOffset, itemsCount, trapsCount, false)));
+        rooms = new LinkedList<>(List.of(new Room(field, 0, 0, itemsCount, trapsCount, false)));
     }
 
     public int getWidth() {
-        return xOffset + rooms.stream().map(Room::getWidth).reduce(0, Integer::sum);
+        return rooms.stream().map(Room::getWidth).reduce(0, Integer::sum);
     }
 
     public int getHeight() {
-        return yOffset + rooms.stream().map(Room::getHeight).max(Integer::compareTo).orElse(0);
+        return rooms.stream().map(Room::getHeight).max(Integer::compareTo).orElse(0);
     }
 
     public Collection<Entity> getField() {
@@ -72,32 +68,35 @@ public class Level {
                 player.getPosition().getSecond() + dy
         );
         Entity entity = field.get(newPos);
-        if (entity != null) {
-            if (entity instanceof Item) {
-                field.remove(newPos);
-                player.setPosition(newPos);
-            } else if (entity instanceof Trap) {
-                player.takeDamage(((Trap) entity).getDamage());
-                player.setPosition(newPos);
-                field.remove(newPos);
-            } else if (entity instanceof Door) {
-                Door door = (Door) entity;
-                player.setPosition(newPos);
-                if (!door.getVisited()) {
-                    door.setVisited(true);
-                    if (rooms.size() == 3) {
-                        rooms.add(new Room(field, xOffset + getWidth(), yOffset, 0, 0, true));
-                    } else {
-                        rooms.add(new Room(field, xOffset + getWidth(), yOffset, itemsCount, trapsCount, false));
-                    }
-                }
-            } else if (entity instanceof Hatch) {
-                player.setPosition(newPos);
-                ((Hatch) entity).isAvailable(true);
-                return ((Hatch) entity).isAvailable();
-            }
-        } else {
+        if (entity == null) {
             player.setPosition(newPos);
+        } else if (entity instanceof Item) {
+            if (player.apply((Item) entity)) {
+                field.remove(newPos);
+            }
+            player.setPosition(newPos);
+        } else if (entity instanceof Trap) {
+            player.apply((Trap) entity);
+            player.setPosition(newPos);
+            field.remove(newPos);
+        } else if (entity instanceof Door) {
+            Door door = (Door) entity;
+            player.setPosition(newPos);
+            if (!door.getVisited()) {
+                door.setVisited(true);
+                if (rooms.size() == 3) {
+                    rooms.add(new Room(field, getWidth(), 0, 0, 0, true));
+                } else {
+                    rooms.add(new Room(field, getWidth(), 0, itemsCount, trapsCount, false));
+                }
+            }
+        } else if (entity instanceof Hatch) {
+            if (((Hatch) entity).isAvailable()) {
+                player.setPosition(newPos);
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
     }

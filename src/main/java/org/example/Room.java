@@ -39,7 +39,7 @@ public class Room {
                 putEntity(field, new Wall(pos2));
             }
         }
-        RoomGen roomGen = new RoomGen(xOffset, yOffset, getWidth() - 1, getHeight());
+        RoomGen roomGen = new RoomGen(xOffset + 1, yOffset, getWidth() - 1, getHeight());
         for (Entity entity : roomGen.getItems(itemsCount)) {
             putEntity(field, entity);
         }

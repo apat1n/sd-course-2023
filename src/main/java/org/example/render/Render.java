@@ -2,64 +2,55 @@ package org.example.render;
 
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import org.example.Equipment;
 import org.example.Level;
-import org.example.Pair;
-import org.example.entities.Entity;
-import org.example.entities.nonmovable.Empty;
+import org.example.entities.movable.Player;
 
 import java.util.Properties;
 
 public class Render {
     private final ConsoleSystemInterface csi;
+    private final RenderField renderField;
+    private final RenderEquipment renderEquipment;
+    private final RenderStatus renderStatus;
 
     public Render() {
         Properties configuration = new Properties();
         configuration.setProperty("fontSize", "20");
         configuration.setProperty("font", "SF Mono Regular");
         csi = new WSwingConsoleInterface("Heresy Rising", configuration);
-    }
-
-    public void render(Level level) {
-        renderField(level);
-        renderPlayer(level);
-        renderStatus(level);
-    }
-
-    private void renderEntity(Entity entity) {
-        Pair<Integer, Integer> position = entity.getPosition();
-        Utils.Palette palette = Utils.palette.get(entity.getClass().getName());
-        csi.print(position.getFirst(), position.getSecond(), palette.fieldSymbol, palette.color);
+        renderField = new RenderField(csi, 0, 0);
+        renderEquipment = new RenderEquipment(csi, 0, renderField.getHeight());
+        renderStatus = new RenderStatus(csi, 0, renderField.getHeight() + renderEquipment.getHeight());
     }
 
     public void renderField(Level level) {
         csi.cls();
-        for (int x = 0; x < 80; ++x) {
-            for (int y = 0; y < 19; ++y) {
-                renderEntity(new Empty(new Pair<>(x, y)));
-            }
-        }
-        for (Entity entity : level.getField()) {
-            renderEntity(entity);
-        }
+        this.renderField.render(level);
         csi.saveBuffer();
+    }
+
+    public void renderEquipment(Equipment equipment) {
+        csi.restore();
+        this.renderEquipment.render(equipment);
+        csi.saveBuffer();
+    }
+
+    public void renderStatus(Player player) {
+        csi.restore();
+        this.renderStatus.render(player);
+        csi.saveBuffer();
+    }
+
+    public void renderPlayer(Player player) {
+        csi.restore();
+        this.renderField.render(player);
+        csi.refresh();
     }
 
     public void renderDeath() {
         csi.cls();
         csi.print(0, 0, "You died!");
-        csi.refresh();
-    }
-
-    public void renderStatus(Level level) {
-        csi.restore();
-        csi.print(0, level.getHeight(), new String(new char[level.getWidth()]).replace("\0", " "));
-        csi.print(0, level.getHeight(), String.format("Health: %d", level.getPlayer().getHealth()));
-        csi.saveBuffer();
-    }
-
-    public void renderPlayer(Level level) {
-        csi.restore();
-        renderEntity(level.getPlayer());
         csi.refresh();
     }
 
