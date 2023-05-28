@@ -8,10 +8,14 @@ public class Rogalic {
     public void run() {
         LevelCtx levelCtx = new LevelCtx(null);
         Render render = new Render(levelCtx);
+        levelCtx.setRender(render);
+
         render.renderField();
+        render.renderStatus();
 
         while (true) {
             render.renderPlayer();
+            System.out.println("here");
 
             Movable.Direction direction = Movable.Direction.NONE;
             switch (render.getKey()) {
@@ -32,6 +36,27 @@ public class Rogalic {
                     System.exit(0);
             }
             levelCtx.move(direction);
+
+            if (levelCtx.getPlayer().getHealth() <= 0) {
+                render.renderDeath();
+                loop: while (true) {
+                    switch (render.getKey()) {
+                        case CharKey.C:
+                        case CharKey.c:
+                            levelCtx = new LevelCtx(null);
+                            levelCtx.setRender(render);
+                            render.setLevelCtx(levelCtx);
+
+                            render.renderField();
+                            render.renderStatus();
+
+                            break loop;
+                        case CharKey.Q:
+                        case CharKey.q:
+                            System.exit(0);
+                    }
+                }
+            }
         }
     }
 }

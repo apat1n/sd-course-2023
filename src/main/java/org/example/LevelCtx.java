@@ -8,17 +8,21 @@ import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
 import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Wall;
+import org.example.render.Render;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class LevelCtx {
-    public final int WIDTH = 80;
+    public final int WIDTH = 20;
     public final int HEIGHT = 20;
     private final Door door;
     private final Set<Entity> field;
     private Player player;
+
+    private Render render;
 
     LevelCtx(Door door) {
         this.player = new Player(new Pair<>(1, 1));
@@ -38,6 +42,10 @@ public class LevelCtx {
         }
         field.addAll(traps);
         field.addAll(items);
+    }
+
+    public void setRender(Render render) {
+        this.render = render;
     }
 
     public Set<Entity> getField() {
@@ -63,6 +71,24 @@ public class LevelCtx {
             case RIGHT:
                 pos.setFirst(Math.min(pos.getFirst() + 1, WIDTH - 2));
                 break;
+        }
+
+        Iterator<Entity> it = field.iterator();
+        while (it.hasNext()) {
+            Entity entity = it.next();
+            if (entity.getPosition().equals(pos)) {
+                if (entity instanceof Item) {
+                    it.remove();
+                    render.renderField();
+                } else if (entity instanceof Trap) {
+                    player.takeDamage(((Trap) entity).getDamage());
+                    render.renderStatus();
+                } else if (entity instanceof Door) {
+//                    if (player.hasKey()) {
+//                        it.remove();
+//                    }
+                }
+            }
         }
     }
 
