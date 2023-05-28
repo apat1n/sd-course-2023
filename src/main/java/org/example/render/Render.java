@@ -11,19 +11,12 @@ import java.util.Properties;
 
 public class Render {
     private final ConsoleSystemInterface csi;
-    private LevelCtx levelCtx;
 
-    public Render(LevelCtx levelCtx) {
-        this.levelCtx = levelCtx;
-
+    public Render() {
         Properties configuration = new Properties();
         configuration.setProperty("fontSize", "20");
         configuration.setProperty("font", "SF Mono Regular");
         csi = new WSwingConsoleInterface("Heresy Rising", configuration);
-    }
-
-    public void setLevelCtx(LevelCtx levelCtx) {
-        this.levelCtx = levelCtx;
     }
 
     private void renderEntity(Entity entity) {
@@ -32,10 +25,10 @@ public class Render {
         csi.print(position.getFirst(), position.getSecond(), palette.fieldSymbol, palette.color);
     }
 
-    public void renderField() {
+    public void renderField(LevelCtx levelCtx) {
         csi.cls();
-        for (int x = 0; x < levelCtx.WIDTH; ++x) {
-            for (int y = 0; y < levelCtx.HEIGHT; ++y) {
+        for (int x = 0; x < LevelCtx.getWidth(); ++x) {
+            for (int y = 0; y < LevelCtx.getHeight(); ++y) {
                 renderEntity(new Empty(new Pair<>(x, y)));
             }
         }
@@ -43,25 +36,23 @@ public class Render {
             renderEntity(entity);
         }
         csi.saveBuffer();
-        renderStatus();
+        renderStatus(levelCtx);
     }
 
     public void renderDeath() {
         csi.cls();
         csi.print(0, 0, "You died!");
-        csi.print(0, 1, "Press c/C to continue.");
-        csi.print(0, 2, "Press q/Q to exit.");
         csi.refresh();
     }
 
-    public void renderStatus() {
+    public void renderStatus(LevelCtx levelCtx) {
         csi.restore();
-        csi.print(0, levelCtx.HEIGHT, new String(new char[levelCtx.WIDTH]).replace("\0", " "));
-        csi.print(0, levelCtx.HEIGHT, "Health: " + levelCtx.getPlayer().getHealth());
+        csi.print(0, LevelCtx.getHeight(), new String(new char[LevelCtx.getWidth()]).replace("\0", " "));
+        csi.print(0, LevelCtx.getHeight(), "Health: " + levelCtx.getPlayer().getHealth());
         csi.saveBuffer();
     }
 
-    public void renderPlayer() {
+    public void renderPlayer(LevelCtx levelCtx) {
         csi.restore();
         renderEntity(levelCtx.getPlayer());
         csi.refresh();

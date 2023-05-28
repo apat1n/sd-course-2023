@@ -1,33 +1,34 @@
 package org.example;
 
-import java.util.*;
 
-import net.slashie.libjcsi.CSIColor;
-import net.slashie.libjcsi.ConsoleSystemInterface;
-import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
+import org.example.entities.Entity;
 import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+
 public class RoomGen {
-    private int height, width, artifactsCount, enemiesCount, trapCount;
-    private int xdelta, ydelta;
     private static final Random random = new Random();
+    private int width, height;
+    private int xdelta, ydelta;
 
     Set<Pair<Integer, Integer>> important = new HashSet<>();
 
-    public RoomGen(int xdelta, int ydelta, int height, int width, int artifactsCount, int enemiesCount, int trapCount) {
+    public RoomGen(int xdelta, int ydelta, int width, int height) {
         this.xdelta = xdelta;
         this.ydelta = ydelta;
-        this.height = height;
         this.width = width;
-        this.artifactsCount = artifactsCount;
-        this.enemiesCount = enemiesCount;
-        this.trapCount = trapCount;
+        this.height = height;
     }
 
-    private List<Pair<Integer, Integer>> generateCoords(int number){
+    private List<Pair<Integer, Integer>> generateCoords(int number) {
         List<Pair<Integer, Integer>> coords = new LinkedList<>();
-        for (int i = 0; i<number; ++i){
+        for (int i = 0; i < number; ++i) {
             int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
             while (important.contains(toAdd)) {
@@ -41,17 +42,17 @@ public class RoomGen {
         return coords;
     }
 
-    public Map<Pair<Integer, Integer>, Item> artifactSpots() {
-        HashMap<Pair <Integer, Integer>, Item> artifacts = new HashMap<>();
-        for (Pair <Integer, Integer> curCord : generateCoords(artifactsCount)) {
-            artifacts.put(curCord, new Item(curCord, "ABC", 1, 1));
+    public List<Entity> artifactSpots(int count) {
+        List<Entity> artifacts = new LinkedList<>();
+        for (Pair<Integer, Integer> curCord : generateCoords(count)) {
+            artifacts.add(new Item(curCord, "ABC", 1, 1));
         }
         return artifacts;
     }
 
-    public List<Pair<Integer, Integer>> enemySpots() {
+    public List<Pair<Integer, Integer>> enemySpots(int count) {
         List<Pair<Integer, Integer>> enemies = new LinkedList<>();
-        for (int i = 0; i < enemiesCount; ++i) {
+        for (int i = 0; i < count; ++i) {
             int x1 = random.nextInt(width - 2) + xdelta + 1, y1 = random.nextInt(height - 2) + ydelta + 1;
             Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
             while (important.contains(toAdd)) {
@@ -65,10 +66,11 @@ public class RoomGen {
         return enemies;
     }
 
-    public Map<Pair<Integer, Integer>, Trap> traps() {
-        HashMap <Pair<Integer, Integer>, Trap> traps = new HashMap<>();
-        for (Pair <Integer, Integer> curCord : generateCoords(trapCount)) {
-            traps.put(curCord, new Trap(curCord, 10));
+
+    public List<Entity> traps(int count) {
+        List<Entity> traps = new LinkedList<>();
+        for (Pair<Integer, Integer> curCord : generateCoords(count)) {
+            traps.add(new Trap(curCord, 10));
         }
         return traps;
     }

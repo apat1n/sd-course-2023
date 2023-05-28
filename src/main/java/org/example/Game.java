@@ -1,8 +1,8 @@
 package org.example;
 
-import org.example.render.Render;
+import org.example.entities.movable.Player;
 
 public class Game {
     private LevelCtx levelCtx;
-    private Character character;
+    private Player character;
 }
