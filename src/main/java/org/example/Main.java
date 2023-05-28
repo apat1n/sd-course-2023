@@ -6,8 +6,7 @@ import org.example.render.Render;
 
 public class Main {
     public static void main(String[] args) {
-        RoomGen roomGen = new RoomGen(0, 0, LevelCtx.getWidth(), LevelCtx.getHeight());
-        LevelCtx levelCtx = new LevelCtx(roomGen.artifactSpots(2), roomGen.traps(2), null);
+        LevelCtx levelCtx = new LevelCtx(null);
 //        Equipment equipment = new Equipment();
         Render render = new Render();
         render.renderField(levelCtx);
@@ -54,11 +53,29 @@ public class Main {
                     System.exit(0);
             }
             levelCtx.move(direction);
+            render.renderField(levelCtx);
             render.renderStatus(levelCtx);
 
             if (levelCtx.getPlayer().getHealth() <= 0) {
                 render.renderDeath();
-//                System.exit(0);
+                /*loop:
+                while (true) {
+                    switch (render.getKey()) {
+                        case CharKey.C:
+                        case CharKey.c:
+                            levelCtx = new LevelCtx(null);
+                            levelCtx.setRender(render);
+                            render.setLevelCtx(levelCtx);
+
+                            render.renderField();
+                            render.renderStatus();
+
+                            break loop;
+                        case CharKey.Q:
+                        case CharKey.q:
+                            System.exit(0);
+                    }
+                }*/
             }
         }
     }
