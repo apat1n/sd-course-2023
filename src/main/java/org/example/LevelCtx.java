@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 public class LevelCtx {
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 20;
+    public final int WIDTH = 80;
+    public final int HEIGHT = 20;
     private final Door door;
     private final Set<Entity> field;
     private Player player;
@@ -58,10 +58,10 @@ public class LevelCtx {
                 pos.setSecond(Math.max(pos.getSecond() - 1, 1));
                 break;
             case BACKWARD:
-                pos.setSecond(Math.min(pos.getSecond() + 1, LevelCtx.HEIGHT - 2));
+                pos.setSecond(Math.min(pos.getSecond() + 1, HEIGHT - 2));
                 break;
             case RIGHT:
-                pos.setFirst(Math.min(pos.getFirst() + 1, LevelCtx.WIDTH - 2));
+                pos.setFirst(Math.min(pos.getFirst() + 1, WIDTH - 2));
                 break;
         }
     }

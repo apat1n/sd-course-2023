@@ -19,8 +19,8 @@ public class Utils {
             "org.example.entities.movable.Player", new Palette('@', CSIColor.AQUA),
             "org.example.entities.nonmovable.Door", new Palette('/', CSIColor.WHITE),
             "org.example.entities.nonmovable.Empty", new Palette('.', CSIColor.WHITE),
-            "org.example.entities.nonmovable.Item", new Palette('I', CSIColor.GREEN),
-            "org.example.entities.nonmovable.Trap", new Palette('T', CSIColor.RED),
+            "org.example.entities.nonmovable.Item", new Palette('o', CSIColor.GREEN),
+            "org.example.entities.nonmovable.Trap", new Palette('x', CSIColor.RED),
             "org.example.entities.nonmovable.Wall", new Palette('#', CSIColor.WHITE)
     );
 }

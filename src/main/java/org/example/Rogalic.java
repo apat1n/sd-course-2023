@@ -8,7 +8,7 @@ public class Rogalic {
     public void run() {
         LevelCtx levelCtx = new LevelCtx(null);
         Render render = new Render(levelCtx);
-        render.renderField(LevelCtx.WIDTH, LevelCtx.HEIGHT);
+        render.renderField();
 
         while (true) {
             render.renderPlayer();

@@ -28,10 +28,10 @@ public class Render {
         csi.print(position.getFirst(), position.getSecond(), palette.fieldSymbol, palette.color);
     }
 
-    public void renderField(int width, int height) {
+    public void renderField() {
         csi.cls();
-        for (int x = 0; x < width; ++x) {
-            for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < levelCtx.WIDTH; ++x) {
+            for (int y = 0; y < levelCtx.HEIGHT; ++y) {
                 renderEntity(new Empty(new Pair<>(x, y)));
             }
         }
