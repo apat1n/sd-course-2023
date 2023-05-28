@@ -3,9 +3,11 @@ package org.example;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 
+import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
 import org.example.entities.nonmovable.ExitDoor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +22,21 @@ public class LevelCtx {
 
     private final Map<Pair<Integer, Integer>, Pair<Character, CSIColor>> map;
 
-    LevelCtx(ExitDoor exitDoor, List<Trap> traps, List<Item> items) {
+    LevelCtx(ExitDoor exitDoor) {
         this.exitDoor = exitDoor;
-        this.traps = traps;
-        this.items = items;
+        RoomGen roomGen = new RoomGen(0, 0, HEIGHT, WIDTH, 2, 0, 2);
+        this.traps = roomGen.traps();
+        this.items = roomGen.artifactSpots();
 
         map = new HashMap<>();
         for (Trap trap : traps) {
-            map.put(trap.getPosition(), new Pair<>('░', CSIColor.RED));
+            System.out.println(trap);
+            map.put(trap.getPosition(), new Pair<>('T', CSIColor.RED));
         }
+
+        List<Item> itemList = roomGen.artifactSpots();
         for (Item item : items) {
-            map.put(item.getCoordinates(), new Pair<>('░', CSIColor.GREEN));
+            map.put(item.getPosition(), new Pair<>('I', CSIColor.GREEN));
         }
     }
 

@@ -23,16 +23,7 @@ public class Rogalic {
 
     public void run() {
         csi.cls();
-
-        List<Trap> traps = Arrays.asList(
-                new Trap(new Pair<>(40, 15), 0),
-                new Trap(new Pair<>(50, 7), 0)
-        );
-        List<Item> items = Arrays.asList(
-                new Item(new Pair<>(10, 10)),
-                new Item(new Pair<>(20, 10))
-        );
-        LevelCtx levelCtx = new LevelCtx(null, traps, items);
+        LevelCtx levelCtx = new LevelCtx(null);
         levelCtx.render(csi);
         csi.saveBuffer();
         csi.saveBuffer();
