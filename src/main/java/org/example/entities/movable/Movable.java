@@ -9,7 +9,7 @@ public abstract class Movable implements Entity {
     private Pair<Integer, Integer> position;
 
     public enum Direction {
-        LEFT, FORWARD, BACKWARD, RIGHT
+        LEFT, FORWARD, BACKWARD, RIGHT, NONE
     }
 
     public Movable(Pair<Integer, Integer> position) {

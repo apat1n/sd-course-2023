@@ -1,71 +1,72 @@
 package org.example;
 
-import net.slashie.libjcsi.CSIColor;
-import net.slashie.libjcsi.ConsoleSystemInterface;
 
+import org.example.entities.Entity;
+import org.example.entities.movable.Movable;
+import org.example.entities.movable.Player;
 import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
-import org.example.entities.nonmovable.ExitDoor;
+import org.example.entities.nonmovable.Door;
+import org.example.entities.nonmovable.Wall;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class LevelCtx {
-    public static final Integer WIDTH = 10;
-    public static final Integer HEIGHT = 7;
+    public static final int WIDTH = 80;
+    public static final int HEIGHT = 20;
+    private final Door door;
+    private final Set<Entity> field;
+    private Player player;
 
-    private final ExitDoor exitDoor;
-    private final List<Trap> traps;
-    private final List<Item> items;
+    LevelCtx(Door door) {
+        this.player = new Player(new Pair<>(1, 1));
+        this.door = door;
+        RoomGen roomGen = new RoomGen(0, 0, HEIGHT, WIDTH, 2, 0, 2);
+        List<Trap> traps = roomGen.traps();
+        List<Item> items = roomGen.artifactSpots();
+        this.field = new HashSet<>();
 
-    private final Map<Pair<Integer, Integer>, Pair<Character, CSIColor>> map;
-
-    LevelCtx(ExitDoor exitDoor) {
-        this.exitDoor = exitDoor;
-        RoomGen roomGen = new RoomGen(0, 0, HEIGHT, WIDTH, 10, 0, 5);
-        this.traps = roomGen.traps();
-        this.items = roomGen.artifactSpots();
-
-        map = new HashMap<>();
-        for (Trap trap : traps) {
-            map.put(trap.getPosition(), new Pair<>('T', CSIColor.RED));
+        for (int i = 0; i < WIDTH; ++i) {
+            field.add(new Wall(new Pair<>(i, 0)));
+            field.add(new Wall(new Pair<>(i, HEIGHT - 1)));
         }
-        for (Item item : items) {
-            map.put(item.getPosition(), new Pair<>('I', CSIColor.GREEN));
+        for (int i = 0; i < HEIGHT; ++i) {
+            field.add(new Wall(new Pair<>(0, i)));
+            field.add(new Wall(new Pair<>(WIDTH - 1, i)));
+        }
+        field.addAll(traps);
+        field.addAll(items);
+    }
+
+    public Set<Entity> getField() {
+        return field;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void move(Movable.Direction direction) {
+        Pair<Integer, Integer> pos = this.player.getPosition();
+        switch (direction) {
+            case LEFT:
+                pos.setFirst(Math.max(pos.getFirst() - 1, 1));
+                break;
+            case FORWARD:
+                pos.setSecond(Math.max(pos.getSecond() - 1, 1));
+                break;
+            case BACKWARD:
+                pos.setSecond(Math.min(pos.getSecond() + 1, LevelCtx.HEIGHT - 2));
+                break;
+            case RIGHT:
+                pos.setFirst(Math.min(pos.getFirst() + 1, LevelCtx.WIDTH - 2));
+                break;
         }
     }
 
-    private Pair<Character, CSIColor> getPixelAt(Integer x, Integer y) {
-        if (y == 0 || y == HEIGHT - 1) {
-            if (x == WIDTH / 2 || x == WIDTH / 2 - 1) {
-                return new Pair<>('-', CSIColor.WHITE);
-            } else {
-                return new Pair<>('#', CSIColor.WHITE);
-            }
-        }
-        if (x == 0 || x == WIDTH - 1) {
-            if (y == HEIGHT / 2 || y == HEIGHT / 2 - 1) {
-                return new Pair<>('|', CSIColor.WHITE);
-            } else {
-                return new Pair<>('#', CSIColor.WHITE);
-            }
-        }
-
-        Pair<Character, CSIColor> pixel = this.map.get(new Pair<>(x, y));
-        if (pixel != null) {
-            return pixel;
-        }
-        return new Pair<>('.', CSIColor.WHITE);
-    }
-
-    public void render(ConsoleSystemInterface csi) {
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                Pair<Character, CSIColor> pixel = getPixelAt(x, y);
-                csi.print(x, y, pixel.getFirst(), pixel.getSecond());
-            }
-        }
+    private static int clamp(int value, int min, int max) {
+        return Math.max(min, Math.min(value, max));
     }
 }

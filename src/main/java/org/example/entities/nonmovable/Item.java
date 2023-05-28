@@ -3,7 +3,6 @@ package org.example.entities.nonmovable;
 import org.example.Pair;
 
 public class Item extends Nonmovable {
-    private static final char fieldSymbol = '!';
     private final String name;
     private final int boostAttack;
     private final int boostHealth;
@@ -13,11 +12,6 @@ public class Item extends Nonmovable {
         this.name = name;
         this.boostAttack = boostAttack;
         this.boostHealth = boostHealth;
-    }
-
-    @Override
-    public char getFieldSymbol() {
-        return fieldSymbol;
     }
 
     public String getName() {

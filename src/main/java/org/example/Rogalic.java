@@ -1,61 +1,37 @@
 package org.example;
 
-import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
-import net.slashie.libjcsi.ConsoleSystemInterface;
-import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
-
-import org.example.entities.nonmovable.Trap;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
+import org.example.entities.movable.Movable;
+import org.example.render.Render;
 
 public class Rogalic {
-    private final Properties configuration = new Properties();
-    private ConsoleSystemInterface csi;
-
-    Rogalic() {
-        configuration.setProperty("fontSize", "20");
-        configuration.setProperty("font", "SF Mono Regular");
-        csi = new WSwingConsoleInterface("Heresy Rising", configuration);
-    }
-
     public void run() {
-        csi.cls();
         LevelCtx levelCtx = new LevelCtx(null);
-        levelCtx.render(csi);
-        csi.saveBuffer();
-        csi.saveBuffer();
+        Render render = new Render();
+        render.renderField(LevelCtx.WIDTH, LevelCtx.HEIGHT, levelCtx.getField());
 
-        int x = 1;
-        int y = 1;
-        boolean exit = false;
-        while (!exit) {
-            csi.restore();
-            csi.restore();
-            csi.print(x, y, '@', CSIColor.AQUA);
-            csi.refresh();
+        while (true) {
+            render.renderPlayer(levelCtx.getPlayer());
 
-            int key = csi.inkey().code;
-            switch (key) {
+            Movable.Direction direction = Movable.Direction.NONE;
+            switch (render.getKey()) {
+                case CharKey.LARROW:
+                    direction = Movable.Direction.LEFT;
+                    break;
                 case CharKey.UARROW:
-                    y = Math.max(1, y - 1);
+                    direction = Movable.Direction.FORWARD;
                     break;
                 case CharKey.DARROW:
-                    y = Math.min(LevelCtx.HEIGHT - 2, y + 1);
-                    break;
-                case CharKey.LARROW:
-                    x = Math.max(1, x - 1);
+                    direction = Movable.Direction.BACKWARD;
                     break;
                 case CharKey.RARROW:
-                    x = Math.min(LevelCtx.WIDTH - 2, x + 1);
+                    direction = Movable.Direction.RIGHT;
                     break;
                 case CharKey.Q:
                 case CharKey.q:
-                    exit = true;
+                    System.exit(0);
             }
+            levelCtx.move(direction);
         }
-        System.exit(0);
     }
 }
