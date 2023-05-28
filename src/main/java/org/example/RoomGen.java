@@ -41,10 +41,10 @@ public class RoomGen {
         return coords;
     }
 
-    public List<Item> artifactSpots() {
-        List<Item> artifacts = new LinkedList<>();
+    public Map<Pair<Integer, Integer>, Item> artifactSpots() {
+        HashMap<Pair <Integer, Integer>, Item> artifacts = new HashMap<>();
         for (Pair <Integer, Integer> curCord : generateCoords(artifactsCount)) {
-            artifacts.add(new Item(curCord, "ABC", 1, 1));
+            artifacts.put(curCord, new Item(curCord, "ABC", 1, 1));
         }
         return artifacts;
     }
@@ -65,10 +65,10 @@ public class RoomGen {
         return enemies;
     }
 
-    public List<Trap> traps() {
-        List<Trap> traps = new LinkedList<>();
+    public Map<Pair<Integer, Integer>, Trap> traps() {
+        HashMap <Pair<Integer, Integer>, Trap> traps = new HashMap<>();
         for (Pair <Integer, Integer> curCord : generateCoords(trapCount)) {
-            traps.add(new Trap(curCord, 10));
+            traps.put(curCord, new Trap(curCord, 10));
         }
         return traps;
     }
