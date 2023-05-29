@@ -22,7 +22,8 @@ public class RenderField {
             "org.example.entities.nonmovable.Item", new Palette<>('o', CSIColor.GREEN),
             "org.example.entities.nonmovable.Trap", new Palette<>('x', CSIColor.RED),
             "org.example.entities.nonmovable.Wall", new Palette<>('#', CSIColor.WHITE),
-            "org.example.entities.nonmovable.Hatch", new Palette<>('O', CSIColor.AQUA)
+            "org.example.entities.nonmovable.Hatch", new Palette<>('O', CSIColor.AQUA),
+            "org.example.mobs.Skaven", new Palette<>('S', CSIColor.AMBER)
     );
 
     public RenderField(ConsoleSystemInterface csi, int xOffset, int yOffset) {

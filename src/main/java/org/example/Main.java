@@ -37,6 +37,7 @@ public class Main {
                 System.out.println("[NEW LEVEL]");
                 System.exit(0);
             }
+            level.moveEnemies();
             render.renderField(level);
             render.renderEquipment(level.getPlayer().getEquipment());
             render.renderStatus(level.getPlayer());
@@ -50,6 +51,7 @@ public class Main {
                         case CharKey.c:
                             level = new Level(2, 2);
                             render.renderField(level);
+                            render.renderEquipment(level.getPlayer().getEquipment());
                             render.renderStatus(level.getPlayer());
                             break loop;
                         case CharKey.Q:
