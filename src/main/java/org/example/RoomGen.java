@@ -2,7 +2,8 @@ package org.example;
 
 
 import org.example.entities.Entity;
-import org.example.entities.nonmovable.Item;
+import org.example.entities.nonmovable.Boost;
+import org.example.entities.nonmovable.Loot;
 import org.example.entities.nonmovable.Trap;
 
 import java.util.HashSet;
@@ -14,10 +15,10 @@ import java.util.Set;
 
 public class RoomGen {
     private static final Random random = new Random();
-    private final int width;
-    private final int height;
     private final int xOffset;
     private final int yOffset;
+    private final int width;
+    private final int height;
     private final Set<Pair<Integer, Integer>> used = new HashSet<>();
 
     public RoomGen(int xOffset, int yOffset, int width, int height) {
@@ -30,12 +31,15 @@ public class RoomGen {
     private List<Pair<Integer, Integer>> generate(int number) {
         List<Pair<Integer, Integer>> result = new LinkedList<>();
         for (int i = 0; i < number; ++i) {
-            int x1 = random.nextInt(width - 2) + xOffset + 1, y1 = random.nextInt(height - 2) + yOffset + 1;
-            Pair<Integer, Integer> toAdd = new Pair<>(x1, y1);
+            Pair<Integer, Integer> toAdd = new Pair<>(
+                    random.nextInt(width) + xOffset,
+                    random.nextInt(height) + yOffset
+            );
             while (used.contains(toAdd)) {
-                x1 = random.nextInt(width - 2) + xOffset + 1;
-                y1 = random.nextInt(height - 2) + yOffset + 1;
-                toAdd = new Pair<>(x1, y1);
+                toAdd = new Pair<>(
+                        random.nextInt(width) + xOffset,
+                        random.nextInt(height) + yOffset
+                );
             }
             result.add(toAdd);
             used.add(toAdd);
@@ -46,7 +50,16 @@ public class RoomGen {
     public List<Entity> getItems(int count) {
         List<Entity> result = new LinkedList<>();
         for (Pair<Integer, Integer> position : generate(count)) {
-            result.add(new Item(position, "ABC", 1, 1));
+            String name = "ABC";
+            int boostAttack = 10;
+            int boostHealth = 10;
+            switch (random.nextInt(2)) {
+                case 0:
+                    result.add(new Boost(position, name, boostAttack, boostHealth));
+                    break;
+                case 1:
+                    result.add(new Loot(position, name, boostAttack, boostHealth));
+            }
         }
         return result;
     }
@@ -55,7 +68,8 @@ public class RoomGen {
     public List<Entity> getTraps(int count) {
         List<Entity> result = new LinkedList<>();
         for (Pair<Integer, Integer> position : generate(count)) {
-            result.add(new Trap(position, 10));
+            int damage = 10;
+            result.add(new Trap(position, damage));
         }
         return result;
     }

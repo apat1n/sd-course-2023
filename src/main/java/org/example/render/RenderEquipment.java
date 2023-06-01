@@ -3,7 +3,7 @@ package org.example.render;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import org.example.Equipment;
-import org.example.entities.nonmovable.Item;
+import org.example.entities.nonmovable.Loot;
 
 import java.util.Map;
 
@@ -41,7 +41,7 @@ public class RenderEquipment {
         }
     }
 
-    private void renderItem(Item item, int xOffset, int yOffset) {
+    private void renderItem(Loot loot, int xOffset, int yOffset) {
         for (int i = 0; i < WIDTH + 2; ++i) {
             csi.print(xOffset + i, yOffset, '#', CSIColor.WHITE);
             csi.print(xOffset + i, yOffset + HEIGHT + 1, '#', CSIColor.WHITE);
@@ -51,7 +51,7 @@ public class RenderEquipment {
             csi.print(xOffset + WIDTH + 1, yOffset + i, '#', CSIColor.WHITE);
             csi.print(xOffset + WIDTH + 2, yOffset + i, ' ', CSIColor.WHITE);
         }
-        String name = item != null ? item.getName() : EMPTY_KEY;
+        String name = loot != null ? loot.getName() : EMPTY_KEY;
         renderIcon(name, xOffset + 1, yOffset + 1);
     }
 

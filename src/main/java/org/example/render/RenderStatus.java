@@ -7,7 +7,7 @@ public class RenderStatus {
     private final int xOffset;
     private final int yOffset;
     private final ConsoleSystemInterface csi;
-    private static final String STATUS_FORMAT = "Health: %-10d";
+    private static final String STATUS_FORMAT = "Attack: %-10d    Health: %-10d    Level: %-10d";
 
     public RenderStatus(ConsoleSystemInterface csi, int xOffset, int yOffset) {
         this.xOffset = xOffset;
@@ -25,6 +25,6 @@ public class RenderStatus {
 
     public void render(Player player) {
         csi.print(xOffset, yOffset, "".repeat(getWidth()));
-        csi.print(xOffset, yOffset, String.format(STATUS_FORMAT, player.getHealth()));
+        csi.print(xOffset, yOffset, String.format(STATUS_FORMAT, player.getAttack(), player.getHealth(), player.getLevelNumber() + 1));
     }
 }
