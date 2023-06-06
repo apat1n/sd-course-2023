@@ -2,15 +2,20 @@ package org.example.entities.movable;
 
 import org.example.Equipment;
 import org.example.Pair;
+import org.example.entities.nonmovable.Boost;
 import org.example.entities.nonmovable.Item;
+import org.example.entities.nonmovable.Loot;
 import org.example.entities.nonmovable.Trap;
 import org.example.mobs.Strategy;
 
 public class Player implements Movable {
-    private static final int INITIAL_HEALTH = 10, INITIAL_ATTACK = 5;
+    private static final int INITIAL_ATTACK = 10;
+    private static final int INITIAL_HEALTH = 10;
     private Pair<Integer, Integer> position;
-    private int health = INITIAL_HEALTH, attack = INITIAL_ATTACK, xp = 0;
+    private int attack = INITIAL_ATTACK;
+    private int health = INITIAL_HEALTH;
     private final Equipment equipment;
+    private int levelNumber = 0, xp = 0;
 
     public Player(Pair<Integer, Integer> position) {
         this.position = position;
@@ -27,16 +32,30 @@ public class Player implements Movable {
         this.position = position;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
     public int getAttack() {
         return attack;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     public boolean apply(Item item) {
-        return getEquipment().add(item);
+        if (item instanceof Boost) {
+            attack += item.getBoostAttack();
+            health += item.getBoostHealth();
+            return true;
+        } else if (item instanceof Loot) {
+            if (getEquipment().add((Loot) item)) {
+                attack += item.getBoostAttack();
+                health += item.getBoostHealth();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public void apply(Trap trap) {
@@ -56,7 +75,15 @@ public class Player implements Movable {
         }
     }
 
-    public void takeDamage(int damage){
+    public void takeDamage(int damage) {
         this.health -= damage;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
     }
 }

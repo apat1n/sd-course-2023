@@ -3,6 +3,7 @@ package org.example.render;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import org.example.Equipment;
+import org.example.Game;
 import org.example.Level;
 import org.example.entities.movable.Player;
 
@@ -24,9 +25,9 @@ public class Render {
         renderStatus = new RenderStatus(csi, 0, renderField.getHeight() + renderEquipment.getHeight());
     }
 
-    public void renderField(Level level) {
+    public void renderField(Game game) {
         csi.cls();
-        this.renderField.render(level);
+        this.renderField.render(game);
         csi.saveBuffer();
     }
 

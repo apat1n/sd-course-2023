@@ -16,22 +16,20 @@ import java.util.*;
 public class Level {
     private final int itemsCount;
     private final int trapsCount;
-    private final Player player;
     private final Map<Pair<Integer, Integer>, Entity> field;
     private final List<Mob> enemies;
     private final List<Room> rooms;
+    private Pair<Integer, Integer> playerPosition;
+    private Player player;
+    private int levelNumber = 0;
 
-    public Level(int itemsCount, int trapsCount) {
+    public Level(int itemsCount, int trapsCount, int levelNumber) {
+        this.levelNumber = levelNumber;
         this.itemsCount = itemsCount;
         this.trapsCount = trapsCount;
         this.enemies = new ArrayList<>();
-        player = new Player(new Pair<>(0, 9));
-        this.field = new HashMap<>();
-        rooms = new LinkedList<>(List.of(new Room(field, 0, 0, itemsCount, trapsCount, false)));
-        Pair<Integer, Integer> cords = new Pair<>(9, 9);
-        Skaven sk = new Skaven(cords, this);
-        field.put(cords, sk);
-        enemies.add(sk);
+        field = new HashMap<>();
+        rooms = new LinkedList<>(List.of(new Room(field, enemies, 0, 0, itemsCount, trapsCount, false, levelNumber, this)));
     }
 
     public int getWidth() {
@@ -42,15 +40,11 @@ public class Level {
         return rooms.stream().map(Room::getHeight).max(Integer::compareTo).orElse(0);
     }
 
-    public Collection<Entity> getField() {
-        return field.values();
+    public Map<Pair<Integer, Integer>, Entity> getField() {
+        return field;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public boolean move(Direction direction) {
+    public boolean move(Player player, Direction direction) {
         int dx = 0, dy = 0;
         switch (direction) {
             case LEFT:
@@ -73,7 +67,9 @@ public class Level {
         );
         Entity entity = field.get(newPos);
         if (entity == null) {
-            player.setPosition(newPos);
+            if (newPos.getFirst() >= 0) {
+                player.setPosition(newPos);
+            }
         } else if (entity instanceof Item) {
             if (player.apply((Item) entity)) {
                 field.remove(newPos);
@@ -82,25 +78,20 @@ public class Level {
         } else if (entity instanceof Trap) {
             player.apply((Trap) entity);
             player.setPosition(newPos);
-            field.remove(newPos);
         } else if (entity instanceof Door) {
             Door door = (Door) entity;
             player.setPosition(newPos);
             if (!door.getVisited()) {
                 door.setVisited(true);
                 if (rooms.size() == 3) {
-                    rooms.add(new Room(field, getWidth(), 0, 0, 0, true));
+                    rooms.add(new Room(field, enemies, getWidth(), 0, 0, 0, true, player.getLevelNumber(), this));
                 } else {
-                    rooms.add(new Room(field, getWidth(), 0, itemsCount, trapsCount, false));
+                    rooms.add(new Room(field, enemies, getWidth(), 0, itemsCount, trapsCount, false, player.getLevelNumber(), this));
                 }
             }
         } else if (entity instanceof Hatch) {
-            if (((Hatch) entity).isAvailable()) {
-                player.setPosition(newPos);
-                return true;
-            } else {
-                return false;
-            }
+            ((Hatch) entity).isAvailable(true);
+            return ((Hatch) entity).isAvailable();
         } else if (entity instanceof Mob){
             if (((Mob) entity).decresaseHealth(player.getAttack())){
                 player.giveXP(((Mob) entity).giveXP());
@@ -112,13 +103,23 @@ public class Level {
         return false;
     }
 
-    public void moveEnemies(){
+    public void moveEnemies(Player player){
+        this.player = player;
+        playerPosition = player.getPosition();
         for (Mob enemy : enemies){
             Pair<Integer,Integer> oldCords = enemy.getPosition();
             field.remove(oldCords);
             enemy.move();
             field.put(enemy.getPosition(), enemy);
         }
+    }
+
+    public Pair<Integer, Integer> getPlayerPosition(){
+        return playerPosition;
+    }
+
+    public void hurtPlayer(int damage){
+        player.takeDamage(damage);
     }
 
     public Entity getTile(Pair<Integer, Integer> coords){

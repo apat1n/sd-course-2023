@@ -6,58 +6,50 @@ import org.example.render.Render;
 
 public class Main {
     public static void main(String[] args) {
-        Level level = new Level(2, 2);
-        Render render = new Render();
-        render.renderField(level);
-        render.renderEquipment(level.getPlayer().getEquipment());
-        render.renderStatus(level.getPlayer());
-
         while (true) {
-            render.renderPlayer(level.getPlayer());
+            Game game = new Game();
+            Render render = new Render();
+            render.renderField(game);
+            render.renderEquipment(game.getPlayer().getEquipment());
+            render.renderStatus(game.getPlayer());
+            do {
+                render.renderPlayer(game.getPlayer());
 
-            Direction direction = Direction.NONE;
-            switch (render.getKey()) {
-                case CharKey.LARROW:
-                    direction = Direction.LEFT;
-                    break;
-                case CharKey.UARROW:
-                    direction = Direction.FORWARD;
-                    break;
-                case CharKey.DARROW:
-                    direction = Direction.BACKWARD;
-                    break;
-                case CharKey.RARROW:
-                    direction = Direction.RIGHT;
-                    break;
-                case CharKey.Q:
-                case CharKey.q:
-                    System.exit(0);
-            }
-            if (level.move(direction)) {
-                System.out.println("[NEW LEVEL]");
-                System.exit(0);
-            }
-            level.moveEnemies();
-            render.renderField(level);
-            render.renderEquipment(level.getPlayer().getEquipment());
-            render.renderStatus(level.getPlayer());
+                Direction direction = Direction.NONE;
+                switch (render.getKey()) {
+                    case CharKey.LARROW:
+                        direction = Direction.LEFT;
+                        break;
+                    case CharKey.UARROW:
+                        direction = Direction.FORWARD;
+                        break;
+                    case CharKey.DARROW:
+                        direction = Direction.BACKWARD;
+                        break;
+                    case CharKey.RARROW:
+                        direction = Direction.RIGHT;
+                        break;
+                    case CharKey.Q:
+                    case CharKey.q:
+                        System.exit(0);
+                }
+                game.move(direction);
+                game.moveEnemies();
+                render.renderField(game);
+                render.renderEquipment(game.getPlayer().getEquipment());
+                render.renderStatus(game.getPlayer());
+            } while (game.getPlayer().getHealth() > 0);
 
-            if (level.getPlayer().getHealth() <= 0) {
-                render.renderDeath();
-                loop:
-                while (true) {
-                    switch (render.getKey()) {
-                        case CharKey.C:
-                        case CharKey.c:
-                            level = new Level(2, 2);
-                            render.renderField(level);
-                            render.renderEquipment(level.getPlayer().getEquipment());
-                            render.renderStatus(level.getPlayer());
-                            break loop;
-                        case CharKey.Q:
-                        case CharKey.q:
-                            System.exit(0);
-                    }
+            render.renderDeath();
+            death_loop:
+            while (true) {
+                switch (render.getKey()) {
+                    case CharKey.C:
+                    case CharKey.c:
+                        break death_loop;
+                    case CharKey.Q:
+                    case CharKey.q:
+                        System.exit(0);
                 }
             }
         }

@@ -1,30 +1,30 @@
 package org.example;
 
-import org.example.entities.nonmovable.Item;
+import org.example.entities.nonmovable.Loot;
 
 public class Equipment {
     private static final int EQUIPMENT_SIZE = 10;
-    private final Item[] items;
+    private final Loot[] loots;
 
     public Equipment() {
-        this.items = new Item[EQUIPMENT_SIZE];
+        this.loots = new Loot[EQUIPMENT_SIZE];
     }
 
     public int size() {
         return EQUIPMENT_SIZE;
     }
 
-    public boolean add(Item item) {
+    public boolean add(Loot loot) {
         for (int i = 0; i < size(); ++i) {
-            if (items[i] == null) {
-                items[i] = item;
+            if (loots[i] == null) {
+                loots[i] = loot;
                 return true;
             }
         }
         return false;
     }
 
-    public Item get(int index) {
-        return items[index];
+    public Loot get(int index) {
+        return loots[index];
     }
 }
