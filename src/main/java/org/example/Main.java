@@ -39,7 +39,6 @@ public class Main {
                 render.renderEquipment(game.getPlayer().getEquipment());
                 render.renderStatus(game.getPlayer());
             } while (game.getPlayer().getHealth() > 0);
-
             render.renderDeath();
             death_loop:
             while (true) {

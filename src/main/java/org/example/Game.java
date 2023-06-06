@@ -46,7 +46,6 @@ public class Game {
             player.setPosition(initializePosition());
         }
     }
-
     public void moveEnemies(){
         Level curLevel = levels.get(player.getLevelNumber());
         curLevel.moveEnemies(player);

@@ -2,7 +2,6 @@ package org.example;
 
 
 import org.example.entities.Entity;
-import org.example.entities.movable.Player;
 import org.example.entities.nonmovable.Boost;
 import org.example.entities.nonmovable.Loot;
 import org.example.entities.nonmovable.Trap;
