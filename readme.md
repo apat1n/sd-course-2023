@@ -1,7 +1,10 @@
 ## Документация "Heresy Rising"
 
+Диаграмма классов:
+
+![](diag1.jpg)
 
 Диаграмма компонентов:
 
-![](HR_component_diagram.png)
+![](HR_diag_comp.png)
 
