@@ -17,8 +17,9 @@ public class Game {
     }
 
     public Game() {
-        this.levels = new LinkedList<>(List.of(new Level(2, 2, levelCount++)));
-        this.player = new Player(initializePosition());
+        this.player = new Player(new Pair<>(0, 0));
+        this.levels = new LinkedList<>(List.of(new Level(2, 2, levelCount++, player)));
+        this.player.setPosition(initializePosition());
     }
 
     public int getWidth() {
@@ -41,7 +42,7 @@ public class Game {
         Level curLevel = levels.get(player.getLevelNumber());
         if (curLevel.move(player, direction)) {
             System.out.println("[NEW LEVEL]");
-            levels.add(new Level(2, 2, levelCount++));
+            levels.add(new Level(2, 2, levelCount++, player));
             player.setLevelNumber(player.getLevelNumber() + 1);
             player.setPosition(initializePosition());
         }

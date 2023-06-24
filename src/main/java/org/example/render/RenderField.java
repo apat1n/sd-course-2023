@@ -35,6 +35,7 @@ public class RenderField {
         palette.put("org.example.mobs.Cultist", new Palette<>('c', CSIColor.AMBER));
         palette.put("org.example.mobs.ChaosWarrior", new Palette<>('C', CSIColor.AMETHYST));
         palette.put("org.example.mobs.Ratogre", new Palette<>('R', CSIColor.AMETHYST));
+        palette.put("org.example.mobs.Rasknitt", new Palette<>('S', CSIColor.AMETHYST));
         System.out.println(palette.size());
         this.xOffset = xOffset;
         this.yOffset = yOffset;

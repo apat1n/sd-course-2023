@@ -29,6 +29,10 @@ public abstract class Mob implements Movable {
         return healthPoints <= 0;
     }
 
+    public void updatePlayerLocation(Pair<Integer, Integer> playerLocation){
+        this.playerLocation = playerLocation;
+    }
+
     public int giveXP(){
         return xp;
     }

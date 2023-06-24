@@ -26,7 +26,7 @@ public class Cultist extends Mob{
 
     @Override
     public void move() {
-        updatePlayerLocation();
+        updatePlayerLocation(level.getPlayerPosition());
         int checker = 0;
         for (int i = 0; i<4; ++i) {
             int dx = 0, dy = 0;
@@ -46,7 +46,7 @@ public class Cultist extends Mob{
             }
             Pair<Integer, Integer> newPos = new Pair<>(myLocation.getFirst() + dx, myLocation.getSecond() + dy);
             Entity tile = level.getTile(newPos);
-            if (!(tile instanceof Door) && !(tile instanceof Wall)){
+            if (!(tile instanceof Door) && !(tile instanceof Wall) && !(tile instanceof Mob)){
                 checker += 1 << i;
             }
         }
