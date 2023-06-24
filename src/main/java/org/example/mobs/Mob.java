@@ -4,6 +4,8 @@ import org.example.Level;
 import org.example.Pair;
 import org.example.entities.movable.Movable;
 
+import java.util.Random;
+
 public abstract class Mob implements Movable {
     int healthPoints, attack, xp;
     Level level;
@@ -25,6 +27,7 @@ public abstract class Mob implements Movable {
     }
 
     public boolean decresaseHealth(int attacked){
+        Random random = new Random();
         this.healthPoints -= attacked;
         return healthPoints <= 0;
     }

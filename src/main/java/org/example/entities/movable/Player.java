@@ -9,8 +9,8 @@ import org.example.entities.nonmovable.Trap;
 import org.example.mobs.Strategy;
 
 public class Player implements Movable {
-    private static final int INITIAL_ATTACK = 10;
-    private static final int INITIAL_HEALTH = 10;
+    private static final int INITIAL_ATTACK = 100;
+    private static final int INITIAL_HEALTH = 10000;
     private Pair<Integer, Integer> position;
     private int attack = INITIAL_ATTACK;
     private int health = INITIAL_HEALTH;

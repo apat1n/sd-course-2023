@@ -8,6 +8,7 @@ import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Hatch;
 import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
+import org.example.mobs.EffectApplierBasher;
 import org.example.mobs.Mob;
 import org.example.mobs.Skaven;
 
@@ -108,6 +109,16 @@ public class Level {
                 field.remove(newPos);
                 player.setPosition(newPos);
                 enemies.remove(entity);
+            } else {
+                Random random = new Random();
+                int isBashed = random.nextInt(10);
+                if (isBashed == 0 && !(entity instanceof EffectApplierBasher)){
+                    EffectApplierBasher bashedMob = new EffectApplierBasher((Mob) entity);
+                    field.remove(newPos);
+                    enemies.remove(entity);
+                    field.put(newPos, bashedMob);
+                    enemies.add(bashedMob);
+                }
             }
         }
         return false;

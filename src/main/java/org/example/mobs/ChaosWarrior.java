@@ -20,7 +20,7 @@ public class ChaosWarrior extends Mob{
     public ChaosWarrior(Pair<Integer, Integer> myPos, Level level) {
         super(new BraveStrategy(), myPos, level);
         this.xp = 100;
-        this.healthPoints = 50;
+        this.healthPoints = 5000;
         this.attack = 10;
     }
 

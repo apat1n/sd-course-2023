@@ -1,9 +1,11 @@
 package org.example.mobs;
 
+import org.example.Pair;
+
 public abstract class AbstractEffectApplier extends Mob{
 
-    protected Mob affectedMob;
-    private int stunDuration = 0;
+    public Mob affectedMob;
+    protected int stunDuration = 0;
     AbstractEffectApplier(Strategy strategy) {
         super(strategy);
     }
@@ -15,11 +17,12 @@ public abstract class AbstractEffectApplier extends Mob{
     }
 
     @Override
-    public void move() {
-        if (stunDuration == 0){
-            stunDuration++;
-        } else {
-            affectedMob.move();
-        }
+    public boolean decresaseHealth(int attacked) {
+        return affectedMob.decresaseHealth(attacked);
+    }
+
+    @Override
+    public Pair<Integer, Integer> getPosition() {
+        return affectedMob.getPosition();
     }
 }
