@@ -61,7 +61,6 @@ public class RoomGen {
         List<Entity> result = new LinkedList<>();
         for (Pair<Integer, Integer> position : generate(count)) {
             String name = "ABC";
-            int boostAttack = 10;
             int boostHealth = 10;
             switch (random.nextInt(2)) {
                 case 0:

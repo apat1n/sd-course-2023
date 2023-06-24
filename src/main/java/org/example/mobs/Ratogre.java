@@ -6,8 +6,8 @@ import org.example.entities.Entity;
 import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Wall;
 
-public class Skaven extends Mob{
-    Skaven(Strategy strategy, Pair<Integer, Integer> location) {
+public class Ratogre extends Mob{
+    Ratogre(Strategy strategy, Pair<Integer, Integer> location) {
         super(strategy);
         myLocation = location;
     }
@@ -17,11 +17,11 @@ public class Skaven extends Mob{
         return myLocation;
     }
 
-    public Skaven(Pair<Integer, Integer> myPos, Level level) {
+    public Ratogre(Pair<Integer, Integer> myPos, Level level) {
         super(new BraveStrategy(), myPos, level);
-        this.xp = 30;
-        this.healthPoints = 10;
-        this.attack = 3;
+        this.xp = 200;
+        this.healthPoints = 100;
+        this.attack = 14;
     }
 
     @Override
@@ -59,5 +59,4 @@ public class Skaven extends Mob{
     public void setPosition(Pair<Integer, Integer> position) {
         myLocation = position;
     }
-
 }

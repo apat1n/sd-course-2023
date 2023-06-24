@@ -12,7 +12,7 @@ public class Rat extends Mob{
         super(strategy);
     }
 
-    Rat(Pair<Integer, Integer> myLocation, Level level){
+    public Rat(Pair<Integer, Integer> myLocation, Level level){
         super(new CowardStrategy(), myLocation, level);
     }
 
@@ -23,8 +23,10 @@ public class Rat extends Mob{
 
     @Override
     public void move() {
-        int dx = 0, dy = 0, checker = 0;
+        updatePlayerLocation(level.getPlayerPosition());
+        int checker = 0;
         for (int i = 0; i<4; ++i) {
+            int dx = 0, dy = 0;
             switch (i) {
                 case 0:
                     dx = -1;
@@ -41,10 +43,12 @@ public class Rat extends Mob{
             }
             Pair<Integer, Integer> newPos = new Pair<>(myLocation.getFirst() + dx, myLocation.getSecond() + dy);
             Entity tile = level.getTile(newPos);
-            if (!(tile instanceof Door) && !(tile instanceof Wall)){
+            if (!(tile instanceof Door) && !(tile instanceof Wall) && !(tile instanceof Mob)){
                 checker += 1 << i;
             }
-            strategy.decide(myLocation, playerLocation, checker);
+        }
+        if (strategy.decide(playerLocation, this.myLocation, checker)){
+            level.getPlayer().takeDamage(attack);
         }
     }
 

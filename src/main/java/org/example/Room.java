@@ -4,7 +4,10 @@ import org.example.entities.Entity;
 import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Hatch;
 import org.example.entities.nonmovable.Wall;
+import org.example.mobs.ChaosWarrior;
 import org.example.mobs.Mob;
+import org.example.mobs.Rasknitt;
+import org.example.mobs.Ratogre;
 
 import java.util.List;
 import java.util.Map;
@@ -41,9 +44,23 @@ public class Room {
         for (Entity entity : roomGen.getTraps(trapsCount, levelNumber)) {
             putEntity(field, entity);
         }
-        for (Mob mob : roomGen.getEnemies(levelNumber, level)) {
-            putEntity(field, mob);
-            enemies.add(mob);
+        if (!isLast) {
+            for (Mob mob : roomGen.getEnemies(levelNumber, level)) {
+                putEntity(field, mob);
+                enemies.add(mob);
+            }
+        } else {
+            Mob boss;
+            Pair<Integer, Integer> bossPos = new Pair<Integer, Integer>(xOffset + getWidth()/2, yOffset + getWidth()/2);
+            if (levelNumber == 1){
+                boss = new ChaosWarrior(bossPos, level);
+            } else if (levelNumber == 2) {
+                boss = new Ratogre(bossPos, level);
+            } else {
+                boss = new Rasknitt(bossPos, level);
+            }
+            putEntity(field, boss);
+            enemies.add(boss);
         }
         if (isLast) {
             putEntity(field, new Hatch(new Pair<>(xOffset + getWidth() - 1, getHeight() / 2)));

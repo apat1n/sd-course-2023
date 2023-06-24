@@ -8,6 +8,7 @@ import org.example.Pair;
 import org.example.entities.Entity;
 import org.example.entities.movable.Player;
 import org.example.entities.nonmovable.Empty;
+import org.example.mobs.EffectApplierBasher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class RenderField {
         palette.put("org.example.mobs.Cultist", new Palette<>('c', CSIColor.AMBER));
         palette.put("org.example.mobs.ChaosWarrior", new Palette<>('C', CSIColor.AMETHYST));
         palette.put("org.example.mobs.Ratogre", new Palette<>('R', CSIColor.AMETHYST));
+        palette.put("org.example.mobs.Rasknitt", new Palette<>('S', CSIColor.AMETHYST));
         System.out.println(palette.size());
         this.xOffset = xOffset;
         this.yOffset = yOffset;
@@ -50,7 +52,12 @@ public class RenderField {
 
     private void renderEntity(Entity entity) {
         Pair<Integer, Integer> position = entity.getPosition();
-        Palette<Character> palette = RenderField.palette.get(entity.getClass().getName());
+        Palette <Character> palette = null;
+        if (entity instanceof EffectApplierBasher){
+            palette = RenderField.palette.get(((EffectApplierBasher) entity).affectedMob.getClass().getName());
+        } else {
+            palette = RenderField.palette.get(entity.getClass().getName());
+        }
         csi.print(position.getFirst() + xOffset, position.getSecond() + yOffset, palette.symbol, palette.color);
     }
 

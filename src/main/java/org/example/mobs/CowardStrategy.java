@@ -29,7 +29,7 @@ public class CowardStrategy implements Strategy{
             Pair<Integer, Integer> newPos = new Pair<>(myLocation.getFirst() + dx, myLocation.getSecond() + dy);
             int deltaNew = abs(newPos.getFirst() - playerLocation.getFirst()) + abs(newPos.getSecond() - playerLocation.getSecond()),
                     deltaOld = abs(myLocation.getFirst() - playerLocation.getFirst()) + abs(myLocation.getSecond() - playerLocation.getSecond());
-            if (deltaOld - deltaNew < 0 && (availableSpots & (1 << i)) > 0 && (newPos.equals(playerLocation))){
+            if (deltaOld - deltaNew < 0 && (availableSpots & (1 << i)) > 0 && !(newPos.equals(playerLocation))){
                 myLocation.setFirst(newPos.getFirst());
                 myLocation.setSecond(newPos.getSecond());
                 return false;

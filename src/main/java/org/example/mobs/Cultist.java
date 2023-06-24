@@ -6,8 +6,8 @@ import org.example.entities.Entity;
 import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Wall;
 
-public class Skaven extends Mob{
-    Skaven(Strategy strategy, Pair<Integer, Integer> location) {
+public class Cultist extends Mob{
+    Cultist(Strategy strategy, Pair<Integer, Integer> location) {
         super(strategy);
         myLocation = location;
     }
@@ -17,10 +17,10 @@ public class Skaven extends Mob{
         return myLocation;
     }
 
-    public Skaven(Pair<Integer, Integer> myPos, Level level) {
+    public Cultist(Pair<Integer, Integer> myPos, Level level) {
         super(new BraveStrategy(), myPos, level);
-        this.xp = 30;
-        this.healthPoints = 10;
+        this.xp = 15;
+        this.healthPoints = 8;
         this.attack = 3;
     }
 
@@ -51,7 +51,7 @@ public class Skaven extends Mob{
             }
         }
         if (strategy.decide(playerLocation, this.myLocation, checker)){
-            level.getPlayer().takeDamage(attack);
+            level.hurtPlayer(attack);
         }
     }
 
@@ -59,5 +59,4 @@ public class Skaven extends Mob{
     public void setPosition(Pair<Integer, Integer> position) {
         myLocation = position;
     }
-
 }

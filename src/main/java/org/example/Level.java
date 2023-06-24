@@ -8,6 +8,7 @@ import org.example.entities.nonmovable.Door;
 import org.example.entities.nonmovable.Hatch;
 import org.example.entities.nonmovable.Item;
 import org.example.entities.nonmovable.Trap;
+import org.example.mobs.EffectApplierBasher;
 import org.example.mobs.Mob;
 import org.example.mobs.Skaven;
 
@@ -25,6 +26,16 @@ public class Level {
 
     public Level(int itemsCount, int trapsCount, int levelNumber) {
         this.levelNumber = levelNumber;
+        this.itemsCount = itemsCount;
+        this.trapsCount = trapsCount;
+        this.enemies = new ArrayList<>();
+        field = new HashMap<>();
+        rooms = new LinkedList<>(List.of(new Room(field, enemies, 0, 0, itemsCount, trapsCount, false, levelNumber, this)));
+    }
+
+    public Level(int itemsCount, int trapsCount, int levelNumber, Player player) {
+        this.levelNumber = levelNumber;
+        this.player = player;
         this.itemsCount = itemsCount;
         this.trapsCount = trapsCount;
         this.enemies = new ArrayList<>();
@@ -84,9 +95,9 @@ public class Level {
             if (!door.getVisited()) {
                 door.setVisited(true);
                 if (rooms.size() == 3) {
-                    rooms.add(new Room(field, enemies, getWidth(), 0, 0, 0, true, player.getLevelNumber(), this));
+                    rooms.add(new Room(field, enemies, getWidth(), 0, 0, 0, true, levelNumber, this));
                 } else {
-                    rooms.add(new Room(field, enemies, getWidth(), 0, itemsCount, trapsCount, false, player.getLevelNumber(), this));
+                    rooms.add(new Room(field, enemies, getWidth(), 0, itemsCount, trapsCount, false, levelNumber, this));
                 }
             }
         } else if (entity instanceof Hatch) {
@@ -95,9 +106,19 @@ public class Level {
         } else if (entity instanceof Mob){
             if (((Mob) entity).decresaseHealth(player.getAttack())){
                 player.giveXP(((Mob) entity).giveXP());
-                player.setPosition(newPos);
                 field.remove(newPos);
+                player.setPosition(newPos);
                 enemies.remove(entity);
+            } else {
+                Random random = new Random();
+                int isBashed = random.nextInt(10);
+                if (isBashed == 0 && !(entity instanceof EffectApplierBasher)){
+                    EffectApplierBasher bashedMob = new EffectApplierBasher((Mob) entity);
+                    field.remove(newPos);
+                    enemies.remove(entity);
+                    field.put(newPos, bashedMob);
+                    enemies.add(bashedMob);
+                }
             }
         }
         return false;
@@ -112,6 +133,14 @@ public class Level {
             enemy.move();
             field.put(enemy.getPosition(), enemy);
         }
+    }
+
+    public Player getPlayer(){
+        return player;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
     public Pair<Integer, Integer> getPlayerPosition(){
