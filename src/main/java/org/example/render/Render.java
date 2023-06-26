@@ -55,6 +55,12 @@ public class Render {
         csi.refresh();
     }
 
+    public void renderWin() {
+        csi.cls();
+        csi.print(0, 0, "You win!");
+        csi.refresh();
+    }
+
     public int getKey() {
         return csi.inkey().code;
     }

@@ -20,8 +20,8 @@ public class Ratogre extends Mob{
     public Ratogre(Pair<Integer, Integer> myPos, Level level) {
         super(new BraveStrategy(), myPos, level);
         this.xp = 200;
-        this.healthPoints = 100;
-        this.attack = 14;
+        this.healthPoints = 50;
+        this.attack = 10;
     }
 
     @Override

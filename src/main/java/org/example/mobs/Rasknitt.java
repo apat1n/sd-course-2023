@@ -20,8 +20,8 @@ public class Rasknitt extends Mob{
     public Rasknitt(Pair<Integer, Integer> myPos, Level level) {
         super(new BraveStrategy(), myPos, level);
         this.xp = 500;
-        this.healthPoints = 200;
-        this.attack = 20;
+        this.healthPoints = 100;
+        this.attack = 15;
     }
 
     @Override

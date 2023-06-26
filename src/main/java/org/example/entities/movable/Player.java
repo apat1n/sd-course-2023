@@ -9,8 +9,8 @@ import org.example.entities.nonmovable.Trap;
 import org.example.mobs.Strategy;
 
 public class Player implements Movable {
-    private static final int INITIAL_ATTACK = 100;
-    private static final int INITIAL_HEALTH = 10000;
+    private static final int INITIAL_ATTACK = 5;
+    private static final int INITIAL_HEALTH = 30;
     private Pair<Integer, Integer> position;
     private int attack = INITIAL_ATTACK;
     private int health = INITIAL_HEALTH;
@@ -69,9 +69,9 @@ public class Player implements Movable {
     public void giveXP(int xp){
         this.xp += xp;
         if (this.xp > 100){
+            attack += 2 * this.xp / 100;
+            health += 10 * this.xp / 100;
             this.xp = 0;
-            attack += 2;
-            health += 10;
         }
     }
 

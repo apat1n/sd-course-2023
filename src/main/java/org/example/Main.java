@@ -38,8 +38,12 @@ public class Main {
                 render.renderField(game);
                 render.renderEquipment(game.getPlayer().getEquipment());
                 render.renderStatus(game.getPlayer());
-            } while (game.getPlayer().getHealth() > 0);
-            render.renderDeath();
+            } while (!game.isGameFinished() && game.getPlayer().getHealth() > 0);
+            if (game.isGameFinished()){
+                render.renderWin();
+            } else {
+                render.renderDeath();
+            }
             death_loop:
             while (true) {
                 switch (render.getKey()) {

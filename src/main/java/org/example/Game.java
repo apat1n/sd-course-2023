@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Game {
+    private boolean isFinished = false;
     private final List<Level> levels;
     private final Player player;
     private int levelCount = 1;
@@ -41,6 +42,10 @@ public class Game {
     public void move(Direction direction) {
         Level curLevel = levels.get(player.getLevelNumber());
         if (curLevel.move(player, direction)) {
+            if (levelCount + 1 == 5){
+                isFinished = true;
+                return;
+            }
             System.out.println("[NEW LEVEL]");
             levels.add(new Level(2, 2, levelCount++, player));
             player.setLevelNumber(player.getLevelNumber() + 1);
@@ -50,5 +55,9 @@ public class Game {
     public void moveEnemies(){
         Level curLevel = levels.get(player.getLevelNumber());
         curLevel.moveEnemies(player);
+    }
+
+    public boolean isGameFinished(){
+        return isFinished;
     }
 }
